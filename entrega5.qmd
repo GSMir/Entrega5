@@ -1,0 +1,15 @@
+---
+title: "Entrega 5"
+author: "Ángel García, Arnau Piferrer  y Guillem Serra"
+format: html
+editor: visual
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, message = FALSE,warning=FALSE}
+library(tidyverse)
+```
