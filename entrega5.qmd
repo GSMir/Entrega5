@@ -9,20 +9,23 @@ editor: visual
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r, message = FALSE,warning=FALSE}
+```{r, message = FALSE, warning=FALSE}
 library(tidyverse)
 library(factoextra)
 library(ggplot2)
 ```
 
-Considera los datos *"europa.dat"* que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:
+**Considera los datos *"europa.dat"* que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:**
 
-Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.
+**Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.**
 
-Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.
+**Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.**
+
+
+En primer lugar procedemos a cargar nuestros datos:
 
 ```{r}
-europa = read.table("europa.dat") # Cargamos nuestro Dataset
+europa = read.table("europa.dat")
 europa
 ```
 
@@ -32,12 +35,22 @@ Lo primero que hacemos es revisar si las variables están correlacionadas, requi
 corr_matrix = cor(europa[,1:9])
 corr_matrix
 ```
+En primer lugar, nos urge decidir si estandarizamos o no los datos. Para ello optaremos por ver si existen grandes diferencias en las varianzas muestrales de nuestras variables. En caso afirmativo, optaremos por estandarizar los datos, con el fin de evitar que la mayoría de la variabilidad total la acapare una única variable, pudiendo sesgar así nuestro análisis.
 
-Calculamos las componentes con los datos escalados con la librería factoextra
+```{r}
+var_paises = round(diag(cov(europa[,1:9])),2) # Varianzas muestrales DF
+var_total = round(var_paises*100/sum(var_paises),2)
+df = data.frame(Variable1 = var_paises, Variable2 = var_total)
+colnames(df) = c("Varianza", "% Varianza total")
+df
+```
+
+Como consecuencia de haber obtenido un componente que agrupa la mayoría de la varianza total optaremos por normalizar los datos. Se construye el modelo a partir de la siguiente función:
+
 
 ```{r}
 europa.acp=prcomp(europa[,1:9], scale = TRUE)
-#europa.acp
+europa.acp
 ```
 
 Los valores propios muestran el porcentaje de varianza explicada por cada componente principal.
@@ -49,27 +62,23 @@ lambdas
 
 Un método alternativo para determinar el número de componentes principales es observar el diagrama de valores propios ordenados de mayor a menor. El número de componentes se determina en el punto, más allá del cual los valores propios restantes son todos relativamente pequeños y de tamaño comparable.
 
-
 ```{r}
-fviz_eig(europa.acp, addlabels = TRUE, ylim=c(0,45)) + ggtitle("Peso de las direcciones principales")
+fviz_eig(europa.acp, addlabels = TRUE, ylim=c(0,50)) + ggtitle("Peso de las direcciones principales")
 ```
-
 
 Observamos que las tres primeras componentes principales explican aproximadamente el 74.6% de la variación total. Pese a que, si incorporásemos una componente más podríamos alcanzar un nivel del 85%, vemos conveniente reducir el número de variable a 3 a fin de obtener quizás representaciones que incluyan menos información pero quizás más significativa. Por ello trabajaremos con esas tres componentes para el análisis que sigue a continuación.
 
 Procedemos ahora a realizar los cruces de las distintas componentes principales.
 
-
 ```{r}
 europa.acp$rotation
 ```
-
 
 ### Cruce D1 vs D2:
 
 Tenemos dos tipos de gráficas que podemos hacer:
 
-1) Círculo de Correlación Variable:
+1)  Círculo de Correlación Variable:
 
 En este gráfico se agrupan las variables que tengan correlación positiva. Si acudimos a la matriz de correlación veremos que, por ejemplo, agricultura mantiene correlación negativa con todas las demás variables (y por ello está en la mitad derecha de la circunferencia).
 
@@ -86,9 +95,7 @@ repel = TRUE
 )
 ```
 
-
-2) 
-
+2)  
 
 ```{r}
   fviz_pca_ind(europa.acp, col.ind = "cos2",
@@ -97,7 +104,6 @@ repel = TRUE
   ) + ggtitle("Cruce D1 vs D2")
   
 ```
-
 
 ```{r}
 fviz_pca_biplot(europa.acp, repel = TRUE,
@@ -178,5 +184,3 @@ col.var = "#2E9FDF"
 col.ind = "#696969" # color para las observaciones
 )
 ```
-
-
