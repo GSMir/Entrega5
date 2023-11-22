@@ -15,66 +15,58 @@ library(factoextra)
 library(ggplot2)
 ```
 
-
 Considera los datos *"europa.dat"* que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:
 
-Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones. 
+Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.
 
 Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.
-
 
 ```{r}
 europa = read.table("europa.dat") # Cargamos nuestro Dataset
 europa
 ```
 
-
 Lo primero que hacemos es revisar si las variables están correlacionadas, requisito necesario para obtener una representación más simple de éstas.
-
 
 ```{r}
 corr_matrix = cor(europa[,1:9])
 corr_matrix
 ```
-Calculamos las componentes con los datos escalados con la librería factoextra
 
+Calculamos las componentes con los datos escalados con la librería factoextra
 
 ```{r}
 europa.acp=prcomp(europa[,1:9], scale = TRUE)
 #europa.acp
 ```
 
-
 Los valores propios muestran el porcentaje de varianza explicada por cada componente principal.
-
 
 ```{r}
 lambdas=get_eigenvalue(europa.acp)
 lambdas
 ```
-Observamos que las tres primeras componentes principales explican aproximadamente el 74.6% de la variación total. Pese a que, si incorporásemos una componente más podríamos alcanzar un nivel del 85%, vemos conveniente reducir el número de variable a 3 a fin de obtener quizás representaciones que incluyan menos información pero quizás más significativa. Por ello trabajaremos con esas tres componentes para el análisis que sigue a continuación.
 
+Un método alternativo para determinar el número de componentes principales es observar el diagrama de valores propios ordenados de mayor a menor. El número de componentes se determina en el punto, más allá del cual los valores propios restantes son todos relativamente pequeños y de tamaño comparable.
+
+
+```{r}
+fviz_eig(europa.acp, addlabels = TRUE, ylim=c(0,45)) + ggtitle("Peso de las direcciones principales")
+```
+
+
+Observamos que las tres primeras componentes principales explican aproximadamente el 74.6% de la variación total. Pese a que, si incorporásemos una componente más podríamos alcanzar un nivel del 85%, vemos conveniente reducir el número de variable a 3 a fin de obtener quizás representaciones que incluyan menos información pero quizás más significativa. Por ello trabajaremos con esas tres componentes para el análisis que sigue a continuación.
 
 Procedemos ahora a realizar los cruces de las distintas componentes principales.
 
 
-```{r}
-fviz_pca_ind(europa.acp,
-col.ind = "cos2"
-,
-#Color de acuerdo a la calidad de la representación.
-gradient.cols = c("#00AFBB"
-,
-"#E7B800"
-,
-"#FC4E07"),
-repel = TRUE # Para evitar que el texto se solape
-)
-```
+### Cruce D1 vs D2:
 
+Tenemos dos tipos de gráficas que podemos hacer:
 
+1) Círculo de Correlación Variable:
 
-
+En este gráfico se agrupan las variables que tengan correlación positiva. Si acudimos a la matriz de correlación veremos que, por ejemplo, agricultura mantiene correlación negativa con todas las demás variables (y por ello está en la mitad derecha de la circunferencia).
 
 ```{r}
 fviz_pca_var(europa.acp,
@@ -90,6 +82,17 @@ repel = TRUE
 ```
 
 
+2) 
+
+
+```{r}
+  fviz_pca_ind(europa.acp, col.ind = "cos2",
+  gradient.cols = c("#00AFBB","#E7B800","#FC4E07"), #Color de acuerdo a la calidad de la representación
+  repel = TRUE # Evitamos solapamientos con el texto
+  ) + ggtitle("Cruce D1 vs D2")
+  
+```
+
 
 ```{r}
 fviz_pca_biplot(europa.acp, repel = TRUE,
@@ -98,8 +101,6 @@ col.var = "#2E9FDF"
 col.ind = "#696969" # color para las observaciones
 )
 ```
-
-
 
 ```{r}
 fviz_pca_ind(europa.acp, axes = c(1,3),
@@ -116,9 +117,6 @@ repel = TRUE # Para evitar que el texto se solape
 )
 ```
 
-
-
-
 ```{r}
 fviz_pca_var(europa.acp,axes = c(1,3),
 col.var = "contrib"
@@ -132,8 +130,6 @@ repel = TRUE
 )
 ```
 
-
-
 ```{r}
 fviz_pca_biplot(europa.acp, axes = c(1,3),repel = TRUE,
 col.var = "#2E9FDF"
@@ -141,9 +137,6 @@ col.var = "#2E9FDF"
 col.ind = "#696969" # color para las observaciones
 )
 ```
-
-
-
 
 ```{r}
 fviz_pca_ind(europa.acp, axes = c(2,3),
@@ -160,9 +153,6 @@ repel = TRUE # Para evitar que el texto se solape
 )
 ```
 
-
-
-
 ```{r}
 fviz_pca_var(europa.acp,axes = c(2,3),
 col.var = "contrib"
@@ -176,8 +166,6 @@ repel = TRUE
 )
 ```
 
-
-
 ```{r}
 fviz_pca_biplot(europa.acp, axes = c(2,3),repel = TRUE,
 col.var = "#2E9FDF"
@@ -185,24 +173,5 @@ col.var = "#2E9FDF"
 col.ind = "#696969" # color para las observaciones
 )
 ```
-
-
-Conclusiones, en el gráfico podemos observar 2 países muy alejados del resto: Turquia y Yugoslavia, intentemos analizar porque:
-
-Turquia: primero hay que considerar que por su situación geográfica, practicamente se puede considerar un país asiático, está entre los 2 continentes, por tanto es lógico que haya diferencia notables con el resto de paises. Por otra parte, según hemos investigado, en esa época hubo gran inestabilidad económica y política en el país, quizás ello también afectó a las actividades económicas.
-
-Yugoslavia: Muy importante, era un país con una economia comunista, y que buscaba la autogestión o autarquia, ambas cosas están directamente relacionadas con como se distribuye la economía.
-
-Luego, parece haber 2 bloques bastante marcados, el primero con: Unión Soviética (el más diferente de los de este grupo con el resto), Rumania, Bulgaria, Polonia, Alemania Oriental, Checoslovaquia i Hungria. ¿Que tienen en común estos paises? Son todos del este de Europa, y además estaban bajo la influencia Soviética, es decir eran paises comunistas, o tenian ideas muy cercanas a los comunistas, de economía planificada etc. De entre ellos, hemos recalcado que la Unión Soviética es la más diferente al resto, esto puede deberse a que es un país de una extensión enorme, y también a que estaba entrando en un periodo bélico (la guerra de Afganistan). Todos estos factores influyen en la economia.
-
-Si bien es cierto que Yugoslavia era un país socialista, era más independiente que el resto de los anteriores con respecto a la Unión Soviética, eso y el hecho que su porcentaje en Agricultura y Finanzas sea mucho mayor que los otros, hace que esté separado de ellos.
-
-Luego hay una zona intermedia con Luxemburgo, y los conocidos actualmente en la union europea como PIIGS: Portugal, Italia, Irlanda, Grecia, España. Son paises que históricamente han tenido problemas inflacionarios, de deuda pública y de inestabilidad del tipo de cambio.
-
-Paises del sur de europa e Irlanda (“los paises pobres de la europa continental”), están a caballo entre los otros 2 bloques. Se cuela también Luxemburgo, que recordemos que es un país minúsculo, cosa que puede hacer que sus datos sean extraños o poco representativos.
-
-Por último está el bloque del resto de países, que son los “paises ricos” de europa: Bélgica, Dinamarca, Francia, Alemania Occidental, Holanda, Inglaterra, Austria, Finlandia, Noruega, Suecia y Suiza. Paises “modernos”, democráticos, y con una economia de libre mercado.
-
-Vemos que en efecto la idea general que tenemos de los paises europeos se refleja en nuestro Análisi de componentes principales, pese a que hayamos perdido algo de información por el camino.
 
 
