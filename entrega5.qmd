@@ -186,3 +186,23 @@ col.ind = "#696969" # color para las observaciones
 )
 ```
 
+
+Conclusiones, en el gráfico podemos observar 2 países muy alejados del resto: Turquia y Yugoslavia, intentemos analizar porque:
+
+Turquia: primero hay que considerar que por su situación geográfica, practicamente se puede considerar un país asiático, está entre los 2 continentes, por tanto es lógico que haya diferencia notables con el resto de paises. Por otra parte, según hemos investigado, en esa época hubo gran inestabilidad económica y política en el país, quizás ello también afectó a las actividades económicas.
+
+Yugoslavia: Muy importante, era un país con una economia comunista, y que buscaba la autogestión o autarquia, ambas cosas están directamente relacionadas con como se distribuye la economía.
+
+Luego, parece haber 2 bloques bastante marcados, el primero con: Unión Soviética (el más diferente de los de este grupo con el resto), Rumania, Bulgaria, Polonia, Alemania Oriental, Checoslovaquia i Hungria. ¿Que tienen en común estos paises? Son todos del este de Europa, y además estaban bajo la influencia Soviética, es decir eran paises comunistas, o tenian ideas muy cercanas a los comunistas, de economía planificada etc. De entre ellos, hemos recalcado que la Unión Soviética es la más diferente al resto, esto puede deberse a que es un país de una extensión enorme, y también a que estaba entrando en un periodo bélico (la guerra de Afganistan). Todos estos factores influyen en la economia.
+
+Si bien es cierto que Yugoslavia era un país socialista, era más independiente que el resto de los anteriores con respecto a la Unión Soviética, eso y el hecho que su porcentaje en Agricultura y Finanzas sea mucho mayor que los otros, hace que esté separado de ellos.
+
+Luego hay una zona intermedia con Luxemburgo, y los conocidos actualmente en la union europea como PIIGS: Portugal, Italia, Irlanda, Grecia, España. Son paises que históricamente han tenido problemas inflacionarios, de deuda pública y de inestabilidad del tipo de cambio.
+
+Paises del sur de europa e Irlanda (“los paises pobres de la europa continental”), están a caballo entre los otros 2 bloques. Se cuela también Luxemburgo, que recordemos que es un país minúsculo, cosa que puede hacer que sus datos sean extraños o poco representativos.
+
+Por último está el bloque del resto de países, que son los “paises ricos” de europa: Bélgica, Dinamarca, Francia, Alemania Occidental, Holanda, Inglaterra, Austria, Finlandia, Noruega, Suecia y Suiza. Paises “modernos”, democráticos, y con una economia de libre mercado.
+
+Vemos que en efecto la idea general que tenemos de los paises europeos se refleja en nuestro Análisi de componentes principales, pese a que hayamos perdido algo de información por el camino.
+
+
