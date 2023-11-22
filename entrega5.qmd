@@ -24,7 +24,7 @@ Utiliza el método de componentes principales para reducir el número de variabl
 
 
 ```{r}
-europa = read.table("europa.dat")
+europa = read.table("europa.dat") # Cargamos nuestro Dataset
 europa
 ```
 
@@ -33,15 +33,156 @@ Lo primero que hacemos es revisar si las variables están correlacionadas, requi
 
 
 ```{r}
-cor(europa[,1:9])
+corr_matrix = cor(europa[,1:9])
+corr_matrix
 ```
+Calculamos las componentes con los datos escalados con la librería factoextra
+
+
 ```{r}
 europa.acp=prcomp(europa[,1:9], scale = TRUE)
-europa.acp
+#europa.acp
 ```
+
+
+Los valores propios muestran el porcentaje de varianza explicada por cada componente principal.
+
+
 ```{r}
 lambdas=get_eigenvalue(europa.acp)
 lambdas
 ```
+Observamos que las tres primeras componentes principales explican aproximadamente el 74.6% de la variación total. Pese a que, si incorporásemos una componente más podríamos alcanzar un nivel del 85%, vemos conveniente reducir el número de variable a 3 a fin de obtener quizás representaciones que incluyan menos información pero quizás más significativa. Por ello trabajaremos con esas tres componentes para el análisis que sigue a continuación.
 
+
+Procedemos ahora a realizar los cruces de las distintas componentes principales.
+
+
+```{r}
+fviz_pca_ind(europa.acp,
+col.ind = "cos2"
+,
+#Color de acuerdo a la calidad de la representación.
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE # Para evitar que el texto se solape
+)
+```
+
+
+
+
+
+```{r}
+fviz_pca_var(europa.acp,
+col.var = "contrib"
+,
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE
+)
+```
+
+
+
+```{r}
+fviz_pca_biplot(europa.acp, repel = TRUE,
+col.var = "#2E9FDF"
+, # color para las variables
+col.ind = "#696969" # color para las observaciones
+)
+```
+
+
+
+```{r}
+fviz_pca_ind(europa.acp, axes = c(1,3),
+col.ind = "cos2"
+,
+#Color de acuerdo a la calidad de la representación.
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE # Para evitar que el texto se solape
+
+)
+```
+
+
+
+
+```{r}
+fviz_pca_var(europa.acp,axes = c(1,3),
+col.var = "contrib"
+,
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE
+)
+```
+
+
+
+```{r}
+fviz_pca_biplot(europa.acp, axes = c(1,3),repel = TRUE,
+col.var = "#2E9FDF"
+, # color para las variables
+col.ind = "#696969" # color para las observaciones
+)
+```
+
+
+
+
+```{r}
+fviz_pca_ind(europa.acp, axes = c(2,3),
+col.ind = "cos2"
+,
+#Color de acuerdo a la calidad de la representación.
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE # Para evitar que el texto se solape
+
+)
+```
+
+
+
+
+```{r}
+fviz_pca_var(europa.acp,axes = c(2,3),
+col.var = "contrib"
+,
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE
+)
+```
+
+
+
+```{r}
+fviz_pca_biplot(europa.acp, axes = c(2,3),repel = TRUE,
+col.var = "#2E9FDF"
+, # color para las variables
+col.ind = "#696969" # color para las observaciones
+)
+```
 
