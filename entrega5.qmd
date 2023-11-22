@@ -60,6 +60,11 @@ Observamos que las tres primeras componentes principales explican aproximadament
 Procedemos ahora a realizar los cruces de las distintas componentes principales.
 
 
+```{r}
+europa.acp$rotation
+```
+
+
 ### Cruce D1 vs D2:
 
 Tenemos dos tipos de gráficas que podemos hacer:
