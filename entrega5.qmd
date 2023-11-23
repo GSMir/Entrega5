@@ -26,7 +26,7 @@ En primer lugar procedemos a cargar nuestros datos:
 
 ```{r}
 europa = read.table("europa.dat")
-europa
+head(europa, 26)
 ```
 
 
@@ -280,4 +280,36 @@ ggbiplot(europa.acp_2, choices = c(1, 2)) +
 
 
 ```
+
+PROPUESTA: eliminar yugoslavia y turquía y ver qué pasa
+
+```{r}
+europa = read.table("europa.dat")
+# Suponiendo que tu dataframe se llama 'europa'
+europa_sin_tur_yug <- europa[-c(18, 26), ]
+
+# Ahora realizamos el PCA en el conjunto de datos modificado, sin Turquía y Yugoslavia
+europa.acp_sin_tur_yug <- princomp(europa_sin_tur_yug[, 1:9], cor = FALSE)
+europa.acp_sin_tur_yug
+
+```
+```{r}
+ggbiplot(europa.acp_sin_tur_yug, choices = c(1, 2)) +
+  ggtitle("Biplot de PCA") +
+  theme_minimal()
+
+```
+
+```{r}
+fviz_eig(europa.acp_sin_tur_yug, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las direcciones principales")
+
+```
+
+
+```{r}
+loadings(europa.acp_sin_tur_yug) 
+# Examinamos los pesos de cada variable en cada componente principal
+# El problema es que MIN, ENE, CON no están representadas en ninguna de las primeras.
+```
+
 

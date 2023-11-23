@@ -397,6 +397,52 @@ Italia               1.5020677 -0.24928213  0.05164591  0.034174567</code></pre>
 <p><img src="entrega5_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>PROPUESTA: eliminar yugoslavia y turquía y ver qué pasa</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+princomp(x = europa_sin_tur_yug[, 1:9], cor = FALSE)
+
+Standard deviations:
+     Comp.1      Comp.2      Comp.3      Comp.4      Comp.5      Comp.6 
+11.99215911  6.23949949  3.72044014  1.82762070  1.15104298  0.80921073 
+     Comp.7      Comp.8      Comp.9 
+ 0.66083404  0.24926119  0.03866755 
+
+ 9  variables and  24 observations.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="entrega5_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="entrega5_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+    Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8 Comp.9
+Agr  0.871  0.152                0.278                       0.331
+Min                       0.135 -0.248 -0.305 -0.780  0.311  0.324
+Fab -0.136 -0.831  0.159         0.330         0.162         0.334
+Ene                                    -0.248        -0.896  0.349
+Con               -0.115 -0.237 -0.381  0.810 -0.136         0.326
+IS  -0.238  0.193 -0.690  0.511  0.192                0.109  0.332
+Fin -0.112  0.112 -0.281 -0.794  0.215 -0.282         0.153  0.338
+SSP -0.390  0.475  0.605         0.334  0.162                0.327
+TC                 0.164        -0.637 -0.271  0.567  0.215  0.339
+
+               Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8 Comp.9
+SS loadings     1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000
+Proportion Var  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111
+Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</code></pre>
+</div>
+</div>
 </section>
 
 </main>
