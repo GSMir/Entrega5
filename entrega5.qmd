@@ -326,4 +326,8 @@ loadings(europa.acp_sin_tur_yug)
 # El problema es que MIN, ENE, CON no están representadas en ninguna de las primeras.
 ```
 
+```{r}
+#Mmedias = europa %>%
+# + summarise_if(is.numeric, mean, na.rm = TRUE)
+```
 

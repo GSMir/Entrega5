@@ -1,0 +1,361 @@
+---
+title: "Entrega 5"
+author: "Ángel García, Arnau Piferrer  y Guillem Serra"
+format: html
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, message = FALSE, warning=FALSE}
+library(tidyverse)
+library(factoextra)
+library(ggbiplot)
+library(ggplot2)
+```
+
+
+**Considera los datos *"europa.dat"* que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:**
+
+**Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.**
+
+**Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.**
+
+En primer lugar procedemos a cargar nuestros datos:
+
+
+```{r}
+europa = read.table("europa.dat")
+head(europa, 26)
+```
+
+
+
+Lo primero que hacemos es revisar si las variables están correlacionadas, requisito necesario para obtener una representación más simple de éstas.
+
+
+```{r}
+corr_matrix = cor(europa[,1:9])
+corr_matrix
+```
+
+
+A continuación, nos urge decidir si estandarizamos o no los datos. Para ello optaremos por ver si existen grandes diferencias en las varianzas muestrales de nuestras variables. En caso afirmativo, optaremos por estandarizar los datos, con el fin de evitar que la mayoría de la variabilidad total la acapare una única componente principal, pudiendo sesgar así nuestro análisis.
+
+
+```{r}
+var_paises = round(diag(cov(europa[,1:9])),2) # Varianzas muestrales DF
+var_total = round(var_paises*100/sum(var_paises),2)
+df = data.frame(Variable1 = var_paises, Variable2 = var_total)
+colnames(df) = c("Varianza", "% Varianza total")
+df
+```
+
+
+Como consecuencia de haber obtenido un componente que agrupa la mayoría de la varianza total optaremos por normalizar los datos. Se construye el modelo ACP de correlación a partir de la siguiente función:
+
+
+```{r}
+europa.acp=prcomp(europa[,1:9], scale = TRUE) 
+# Implementamos el modelo ACP
+# Al tomar scale = TRUE estamos centrando y reescalando los datos
+
+europa.acp 
+```
+
+
+Los valores propios muestran el porcentaje de varianza explicada por cada componente principal.
+
+
+```{r}
+lambdas=get_eigenvalue(europa.acp)
+lambdas
+```
+
+
+Un método alternativo para determinar el número de componentes principales es observar el diagrama de valores propios ordenados de mayor a menor. El número de componentes se determina en el punto, más allá del cual los valores propios restantes son todos relativamente pequeños y de tamaño comparable.
+
+
+```{r}
+fviz_eig(europa.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las direcciones principales")
+```
+
+
+Se puede ver que con las 2 primeras componentes nos permiten representar más del 60% de la variabilidad total, mientras que si incluyéramos una tercera componente podríamos alcanzar prácticamente un nivel del 75%. A partir de la cuarta, quinta y siguientes componentes el grado de aportación (en términos de variabilidad) disminuye. No compensará tomar 4 o más componentes principales porque el tamaño del problema se incrementa en exceso por apurar un 10% o 15% más de variabilidad total representada. La cuestión que abordaremos a continuación es si es mejor tomar 2 o 3 componentes principales.
+
+Para decidir sobre este aspecto pasaremos a ver los grados de aportación de cada variable para cada una de las componentes principales.
+
+
+```{r}
+round(europa.acp$rotation,3)
+```
+
+
+Podemos ver que la primera componente principal otorga un peso mayor a la actividad de la agricultura, seguido de las actividades relacionadas con servicios sociales y personales, industrias y servicios, transportes y comunicaciones, fábrica y contrucción. Si pasamos a estudiar la segunda de las componentes nos percatamos de que minería y finanzas, ninguna de ellas representada por la primera, son las que actividades que adquieren más peso. Por último, la tercera componente nos serviría para tener una mejor representación de los datos para la variable suministro eléctrico (no especialmente bien representada por las componentes anteriores) y el sector de las finanzas, que mejora la explicación con respecto a la componente anterior.
+
+Procedemos ahora a realizar los cruces de las distintas componentes principales.
+
+
+```{r}
+europa.acp$rotation
+```
+
+
+### Cruce D1 vs D2:
+
+Tenemos dos tipos de gráficas que podemos hacer:
+
+1)  Círculo de Correlación Variable:
+
+En este gráfico se agrupan las variables que tengan correlación positiva. Si acudimos a la matriz de correlación veremos que, por ejemplo, agricultura mantiene correlación negativa con todas las demás variables (y por ello está en la mitad derecha de la circunferencia).
+
+
+```{r}
+fviz_pca_var(europa.acp,
+col.var = "contrib"
+,
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE
+)
+```
+
+
+2)  
+
+
+```{r}
+  fviz_pca_ind(europa.acp, col.ind = "cos2",
+  gradient.cols = c("#00AFBB","#E7B800","#FC4E07"), #Color de acuerdo a la calidad de la representación
+  repel = TRUE # Evitamos solapamientos con el texto
+  ) + ggtitle("Cruce D1 vs D2")
+  
+```
+
+```{r}
+fviz_pca_biplot(europa.acp, repel = TRUE,
+col.var = "#2E9FDF"
+, # color para las variables
+col.ind = "#696969" # color para las observaciones
+)
+```
+
+```{r}
+fviz_pca_ind(europa.acp, axes = c(1,3),
+col.ind = "cos2"
+,
+#Color de acuerdo a la calidad de la representación.
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE # Para evitar que el texto se solape
+
+)
+```
+
+```{r}
+fviz_pca_var(europa.acp,axes = c(1,3),
+col.var = "contrib"
+,
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE
+)
+```
+
+```{r}
+fviz_pca_biplot(europa.acp, axes = c(1,3),repel = TRUE,
+col.var = "#2E9FDF"
+, # color para las variables
+col.ind = "#696969" # color para las observaciones
+)
+```
+
+```{r}
+fviz_pca_ind(europa.acp, axes = c(2,3),
+col.ind = "cos2"
+,
+#Color de acuerdo a la calidad de la representación.
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE # Para evitar que el texto se solape
+
+)
+```
+
+```{r}
+fviz_pca_var(europa.acp,axes = c(2,3),
+col.var = "contrib"
+,
+gradient.cols = c("#00AFBB"
+,
+"#E7B800"
+,
+"#FC4E07"),
+repel = TRUE
+)
+```
+
+```{r}
+fviz_pca_biplot(europa.acp, axes = c(2,3),repel = TRUE,
+col.var = "#2E9FDF"
+, # color para las variables
+col.ind = "#696969" # color para las observaciones
+)
+```
+
+
+# ----------------------------------------------------------------------------
+
+2ª Propuesta: 
+
+
+Creo que lo anterior no es correcto. Si os fijáis en el enunciado pone que se tiene que usar el PCA de covarianzas, no el de correlaciones. Con esta función "princomp()" puedes especificar si quieres usar
+la matriz de correlaciones (corr = TRUE) o la matriz de covarianzas (cor=FALSE) y los resultados en el caso de usar la matriz de covarianzas (LA QUE PIDE EL ENUNCIADO) coinciden con los de la función que hemos intentado usar antes pero para "scale = FALSE".
+
+Propongo proceder así, en vernos podemos discutirlo más en detalle:
+
+
+
+```{r}
+europa.acp_2=princomp(europa[,1:9], cor = FALSE) 
+# Implementamos el modelo ACP
+# Al tomar cor = FALSE estamos usando la matriz de covarianzas
+europa.acp_2
+```
+
+
+1) Hacemos un summary y vemos cuáles son los valores propios, la varianza explicada por cada componente y la varianza acumulada.
+
+El problema (o no, no lo sé del todo) con la variabilidad acumulada es que prácticamente toda la acumula la primera componente principal y que con únicamente extenderla a 2 componentes principales ya abarcamos másdel 90% de la variabilidad, lo que en teoría debería de ser bueno.
+
+Lo que pasa es que creo que hay ciertos outliers que hacen que se vayan de madre los números y que realmente deberíamos quizás de excluir esos países y hacer el análisis sin tenerlos en cuenta (Turquía, Yugoslavia, los vimos en el análisis incorrecto que intentamos hacer al principio, de eso sí que podemos fiarnos).
+
+
+```{r}
+summary(europa.acp_2)
+```
+
+
+Podemos complementar de forma más visual la aportación de variabilidad que refleja cada una de las componentes con un gráfico. Esto debería de sugerirnos cuántos componentes retener.
+
+
+```{r}
+fviz_eig(europa.acp_2, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las direcciones principales")
+```
+
+
+
+3) Examinar las cargas de los componentes principales para entender cómo cada variable original contribuye a cada componente. Esto nos debería de ser de ayuda para interpretar el significado de los componentes.
+
+
+```{r}
+loadings(europa.acp_2) 
+# Examinamos los pesos de cada variable en cada componente principal
+# El problema es que MIN, ENE, CON no están representadas en ninguna de las primeras.
+```
+
+
+
+4) Hacer un biplot para visualizar simultáneamente las cargas y los scores de los componentes principales. Básicamente hacer el gráfico redondito con el círculo.
+
+Esto debería de proporcionar una visión clara de cómo se relacionan las variables y los países en el espacio de las CP1 y CP2
+
+
+
+```{r}
+europa %<>% mutate(Pais=row.names(.)) %>% relocate(Pais,.before = Agr)
+rownames(europa) = NULL
+```
+
+```{r}
+ggbiplot(pcobj=europa.acp_2,
+         choices = c(1,2), #Indicamos la cantidad de componentes principales que queremos
+         obs.scale = 1,var.scale = 1,
+         labels = europa[,1],
+         varname.size = 5,
+         circle = TRUE
+         )+labs(title = "Proyección en 2 dimensiones")
+
+```
+
+
+Análisis de los Scores: Revisa los scores de los componentes principales para ver cómo cada observación (país) se posiciona en los componentes principales seleccionados. Esto es útil para identificar patrones o agrupaciones.
+
+
+```{r}
+scores <- predict(europa.acp_2)
+head(scores)
+```
+
+```{r}
+
+ggbiplot(europa.acp_2, choices = c(1, 2), labels = europa[,1]) +
+  ggtitle("Biplot de PCA") +
+  theme_minimal()
+
+```
+
+
+PROPUESTA: eliminar yugoslavia y turquía y ver qué pasa
+
+
+```{r}
+europa = read.table("europa.dat")
+
+
+# Suponiendo que tu dataframe se llama 'europa'
+europa_sin_tur_yug <- europa[-c(12, 18, 26), ] # Exluimos Yugoslavia y Turquía
+
+
+# Ahora realizamos el PCA en el conjunto de datos modificado, sin Turquía y Yugoslavia
+europa.acp_sin_tur_yug <- princomp(europa_sin_tur_yug[, 1:9], cor = FALSE)
+europa.acp_sin_tur_yug
+
+
+```
+
+```{r}
+europa_sin_tur_yug %<>% mutate(Pais=row.names(.)) %>% relocate(Pais,.before = Agr)
+rownames(europa) = NULL
+
+
+europa_sin_tur_yug
+```
+
+```{r}
+ggbiplot(europa.acp_sin_tur_yug, choices = c(1, 2), labels = europa_sin_tur_yug[,1]) +
+  ggtitle("Biplot de PCA") +
+  theme_minimal()
+
+```
+
+```{r}
+fviz_eig(europa.acp_sin_tur_yug, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las direcciones principales")
+
+```
+
+```{r}
+loadings(europa.acp_sin_tur_yug) 
+# Examinamos los pesos de cada variable en cada componente principal
+# El problema es que MIN, ENE, CON no están representadas en ninguna de las primeras.
+```
+
+```{r}
+#Mmedias = europa %>%
+# + summarise_if(is.numeric, mean, na.rm = TRUE)
+```
+
