@@ -274,10 +274,9 @@ head(scores)
 
 ```{r}
 
-ggbiplot(europa.acp_2, choices = c(1, 2)) +
+ggbiplot(europa.acp_2, choices = c(1, 2), labels = europa[,1]) +
   ggtitle("Biplot de PCA") +
   theme_minimal()
-
 
 ```
 
@@ -285,16 +284,31 @@ PROPUESTA: eliminar yugoslavia y turquía y ver qué pasa
 
 ```{r}
 europa = read.table("europa.dat")
+
+
 # Suponiendo que tu dataframe se llama 'europa'
-europa_sin_tur_yug <- europa[-c(18, 26), ]
+europa_sin_tur_yug <- europa[-c(12, 18, 26), ] # Exluimos Yugoslavia y Turquía
+
 
 # Ahora realizamos el PCA en el conjunto de datos modificado, sin Turquía y Yugoslavia
 europa.acp_sin_tur_yug <- princomp(europa_sin_tur_yug[, 1:9], cor = FALSE)
 europa.acp_sin_tur_yug
 
+
 ```
+
 ```{r}
-ggbiplot(europa.acp_sin_tur_yug, choices = c(1, 2)) +
+europa_sin_tur_yug %<>% mutate(Pais=row.names(.)) %>% relocate(Pais,.before = Agr)
+rownames(europa) = NULL
+
+
+europa_sin_tur_yug
+```
+
+
+
+```{r}
+ggbiplot(europa.acp_sin_tur_yug, choices = c(1, 2), labels = europa_sin_tur_yug[,1]) +
   ggtitle("Biplot de PCA") +
   theme_minimal()
 
