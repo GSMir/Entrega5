@@ -105,198 +105,6 @@ Union Sovietica     23.7 1.4 25.8 0.6  9.2  6.1  0.5 23.6 9.3
 Yugoslavia          48.7 1.5 16.8 1.1  4.9  6.4 11.3  5.3 4.0</code></pre>
 </div>
 </div>
-<p>Lo primero que hacemos es revisar si las variables están correlacionadas, requisito necesario para obtener una representación más simple de éstas.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>            Agr         Min        Fab         Ene         Con         IS
-Agr  1.00000000  0.03579884 -0.6710976 -0.40005113 -0.53832522 -0.7369805
-Min  0.03579884  1.00000000  0.4451960  0.40545524 -0.02559781 -0.3965646
-Fab -0.67109759  0.44519601  1.0000000  0.38534593  0.49447949  0.2038263
-Ene -0.40005113  0.40545524  0.3853459  1.00000000  0.05988883  0.2019066
-Con -0.53832522 -0.02559781  0.4944795  0.05988883  1.00000000  0.3560216
-IS  -0.73698054 -0.39656456  0.2038263  0.20190661  0.35602160  1.0000000
-Fin -0.21983645 -0.44268311 -0.1558288  0.10986158  0.01628255  0.3655553
-SSP -0.74679001 -0.28101212  0.1541714  0.13241132  0.15824309  0.5721728
-TC  -0.56492047  0.15662892  0.3506925  0.37523116  0.38766214  0.1875543
-            Fin        SSP         TC
-Agr -0.21983645 -0.7467900 -0.5649205
-Min -0.44268311 -0.2810121  0.1566289
-Fab -0.15582884  0.1541714  0.3506925
-Ene  0.10986158  0.1324113  0.3752312
-Con  0.01628255  0.1582431  0.3876621
-IS   0.36555529  0.5721728  0.1875543
-Fin  1.00000000  0.1076403 -0.2459257
-SSP  0.10764028  1.0000000  0.5678669
-TC  -0.24592567  0.5678669  1.0000000</code></pre>
-</div>
-</div>
-<p>A continuación, nos urge decidir si estandarizamos o no los datos. Para ello optaremos por ver si existen grandes diferencias en las varianzas muestrales de nuestras variables. En caso afirmativo, optaremos por estandarizar los datos, con el fin de evitar que la mayoría de la variabilidad total la acapare una única componente principal, pudiendo sesgar así nuestro análisis.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>    Varianza % Varianza total
-Agr   241.70            64.97
-Min     0.94             0.25
-Fab    49.11            13.20
-Ene     0.14             0.04
-Con     2.71             0.73
-IS     20.93             5.63
-Fin     7.88             2.12
-SSP    46.64            12.54
-TC      1.94             0.52</code></pre>
-</div>
-</div>
-<p>Como consecuencia de haber obtenido un componente que agrupa la mayoría de la varianza total optaremos por normalizar los datos. Se construye el modelo ACP de correlación a partir de la siguiente función:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Standard deviations (1, .., p=9):
-[1] 1.867391569 1.459511268 1.048311791 0.997237674 0.737033056 0.619215363
-[7] 0.475135828 0.369851221 0.006754636
-
-Rotation (n x k) = (9 x 9):
-             PC1         PC2         PC3         PC4        PC5        PC6
-Agr  0.523790989  0.05359389  0.04867439 -0.02879285  0.2127026  0.1533066
-Min  0.001323458  0.61780714 -0.20110021 -0.06408495 -0.1637431 -0.1005897
-Fab -0.347495131  0.35505360 -0.15046308  0.34608821 -0.3849576 -0.2881523
-Ene -0.255716182  0.26109606 -0.56108325 -0.39330897  0.2951715  0.3572641
-Con -0.325179319  0.05128845  0.15332114  0.66832395  0.4715934  0.1303542
-IS  -0.378919663 -0.35017206 -0.11509551  0.05015651 -0.2835681  0.6148287
-Fin -0.074373583 -0.45369785 -0.58736130  0.05156652  0.2795682 -0.5255581
-SSP -0.387408806 -0.22152120  0.31190350 -0.41223019 -0.2203514 -0.2629097
-TC  -0.366822713  0.20259185  0.37510601 -0.31437188  0.5129356 -0.1239760
-            PC7          PC8        PC9
-Agr  0.02132116  0.007922069 0.80641788
-Min -0.72571894  0.088362816 0.04856307
-Fab  0.47936298  0.125818308 0.36595728
-Ene  0.25564699 -0.341228167 0.01938500
-Con -0.22069499 -0.355733906 0.08257219
-IS  -0.22943536  0.387536806 0.23829861
-Fin -0.18745525  0.174329338 0.14517064
-SSP -0.19130212 -0.506154178 0.35094226
-TC   0.06819331  0.544562381 0.07205520</code></pre>
-</div>
-</div>
-<p>Los valores propios muestran el porcentaje de varianza explicada por cada componente principal.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>        eigenvalue variance.percent cumulative.variance.percent
-Dim.1 3.4871512725     3.874613e+01                    38.74613
-Dim.2 2.1301731410     2.366859e+01                    62.41472
-Dim.3 1.0989576113     1.221064e+01                    74.62536
-Dim.4 0.9944829778     1.104981e+01                    85.67517
-Dim.5 0.5432177255     6.035753e+00                    91.71092
-Dim.6 0.3834276658     4.260307e+00                    95.97123
-Dim.7 0.2257540553     2.508378e+00                    98.47960
-Dim.8 0.1367899257     1.519888e+00                    99.99949
-Dim.9 0.0000456251     5.069456e-04                   100.00000</code></pre>
-</div>
-</div>
-<p>Un método alternativo para determinar el número de componentes principales es observar el diagrama de valores propios ordenados de mayor a menor. El número de componentes se determina en el punto, más allá del cual los valores propios restantes son todos relativamente pequeños y de tamaño comparable.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Se puede ver que con las 2 primeras componentes nos permiten representar más del 60% de la variabilidad total, mientras que si incluyéramos una tercera componente podríamos alcanzar prácticamente un nivel del 75%. A partir de la cuarta, quinta y siguientes componentes el grado de aportación (en términos de variabilidad) disminuye. No compensará tomar 4 o más componentes principales porque el tamaño del problema se incrementa en exceso por apurar un 10% o 15% más de variabilidad total representada. La cuestión que abordaremos a continuación es si es mejor tomar 2 o 3 componentes principales.</p>
-<p>Para decidir sobre este aspecto pasaremos a ver los grados de aportación de cada variable para cada una de las componentes principales.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>       PC1    PC2    PC3    PC4    PC5    PC6    PC7    PC8   PC9
-Agr  0.524  0.054  0.049 -0.029  0.213  0.153  0.021  0.008 0.806
-Min  0.001  0.618 -0.201 -0.064 -0.164 -0.101 -0.726  0.088 0.049
-Fab -0.347  0.355 -0.150  0.346 -0.385 -0.288  0.479  0.126 0.366
-Ene -0.256  0.261 -0.561 -0.393  0.295  0.357  0.256 -0.341 0.019
-Con -0.325  0.051  0.153  0.668  0.472  0.130 -0.221 -0.356 0.083
-IS  -0.379 -0.350 -0.115  0.050 -0.284  0.615 -0.229  0.388 0.238
-Fin -0.074 -0.454 -0.587  0.052  0.280 -0.526 -0.187  0.174 0.145
-SSP -0.387 -0.222  0.312 -0.412 -0.220 -0.263 -0.191 -0.506 0.351
-TC  -0.367  0.203  0.375 -0.314  0.513 -0.124  0.068  0.545 0.072</code></pre>
-</div>
-</div>
-<p>Podemos ver que la primera componente principal otorga un peso mayor a la actividad de la agricultura, seguido de las actividades relacionadas con servicios sociales y personales, industrias y servicios, transportes y comunicaciones, fábrica y contrucción. Si pasamos a estudiar la segunda de las componentes nos percatamos de que minería y finanzas, ninguna de ellas representada por la primera, son las que actividades que adquieren más peso. Por último, la tercera componente nos serviría para tener una mejor representación de los datos para la variable suministro eléctrico (no especialmente bien representada por las componentes anteriores) y el sector de las finanzas, que mejora la explicación con respecto a la componente anterior.</p>
-<p>Procedemos ahora a realizar los cruces de las distintas componentes principales.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>             PC1         PC2         PC3         PC4        PC5        PC6
-Agr  0.523790989  0.05359389  0.04867439 -0.02879285  0.2127026  0.1533066
-Min  0.001323458  0.61780714 -0.20110021 -0.06408495 -0.1637431 -0.1005897
-Fab -0.347495131  0.35505360 -0.15046308  0.34608821 -0.3849576 -0.2881523
-Ene -0.255716182  0.26109606 -0.56108325 -0.39330897  0.2951715  0.3572641
-Con -0.325179319  0.05128845  0.15332114  0.66832395  0.4715934  0.1303542
-IS  -0.378919663 -0.35017206 -0.11509551  0.05015651 -0.2835681  0.6148287
-Fin -0.074373583 -0.45369785 -0.58736130  0.05156652  0.2795682 -0.5255581
-SSP -0.387408806 -0.22152120  0.31190350 -0.41223019 -0.2203514 -0.2629097
-TC  -0.366822713  0.20259185  0.37510601 -0.31437188  0.5129356 -0.1239760
-            PC7          PC8        PC9
-Agr  0.02132116  0.007922069 0.80641788
-Min -0.72571894  0.088362816 0.04856307
-Fab  0.47936298  0.125818308 0.36595728
-Ene  0.25564699 -0.341228167 0.01938500
-Con -0.22069499 -0.355733906 0.08257219
-IS  -0.22943536  0.387536806 0.23829861
-Fin -0.18745525  0.174329338 0.14517064
-SSP -0.19130212 -0.506154178 0.35094226
-TC   0.06819331  0.544562381 0.07205520</code></pre>
-</div>
-</div>
-<section id="cruce-d1-vs-d2" class="level3">
-<h3 class="anchored" data-anchor-id="cruce-d1-vs-d2">Cruce D1 vs D2:</h3>
-<p>Tenemos dos tipos de gráficas que podemos hacer:</p>
-<ol type="1">
-<li>Círculo de Correlación Variable:</li>
-</ol>
-<p>En este gráfico se agrupan las variables que tengan correlación positiva. Si acudimos a la matriz de correlación veremos que, por ejemplo, agricultura mantiene correlación negativa con todas las demás variables (y por ello está en la mitad derecha de la circunferencia).</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<ol start="2" type="1">
-<li></li>
-</ol>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="section" class="level1">
-<h1>—————————————————————————-</h1>
-<p>2ª Propuesta:</p>
 <p>Creo que lo anterior no es correcto. Si os fijáis en el enunciado pone que se tiene que usar el PCA de covarianzas, no el de correlaciones. Con esta función “princomp()” puedes especificar si quieres usar la matriz de correlaciones (corr = TRUE) o la matriz de covarianzas (cor=FALSE) y los resultados en el caso de usar la matriz de covarianzas (LA QUE PIDE EL ENUNCIADO) coinciden con los de la función que hemos intentado usar antes pero para “scale = FALSE”.</p>
 <p>Propongo proceder así, en vernos podemos discutirlo más en detalle:</p>
 <div class="cell">
@@ -334,7 +142,7 @@ Cumulative Proportion  0.998688959 0.99982032 0.9999948600 1.000000e+00</code></
 <p>Podemos complementar de forma más visual la aportación de variabilidad que refleja cada una de las componentes con un gráfico. Esto debería de sugerirnos cuántos componentes retener.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <ol start="3" type="1">
@@ -370,7 +178,7 @@ Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</c
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Análisis de los Scores: Revisa los scores de los componentes principales para ver cómo cada observación (país) se posiciona en los componentes principales seleccionados. Esto es útil para identificar patrones o agrupaciones.</p>
@@ -394,7 +202,7 @@ Italia               1.5020677 -0.24928213  0.05164591  0.034174567</code></pre>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>PROPUESTA: eliminar yugoslavia y turquía y ver qué pasa</p>
@@ -466,12 +274,12 @@ Union Sovietica     9.3</code></pre>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
@@ -498,7 +306,6 @@ Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</c
 <div class="cell">
 
 </div>
-</section>
 
 </main>
 <!-- /main column -->
