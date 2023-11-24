@@ -5,6 +5,9 @@ format: html
 editor: visual
 ---
 
+
+Este es el [repositorio](https://github.com/GSMir/Entrega5) de GitHub en el que alojaremos todos los archivos relacionados con esta entrega.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
@@ -22,139 +25,120 @@ library(ggplot2)
 
 **Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.**
 
+
 En primer lugar procedemos a cargar nuestros datos:
 
 ```{r}
+# Cargamos el Dataset:
 europa = read.table("europa.dat")
+
+# Añadimos una primera columna con el nombre de los países:
+europa %<>% mutate(País=row.names(.)) %>% relocate(País,.before = Agr)
+rownames(europa) = NULL
+
+#Mostramos el conjunto de datos:
 head(europa, 26)
 ```
 
-Creo que lo anterior no es correcto. Si os fijáis en el enunciado pone que se tiene que usar el PCA de covarianzas, no el de correlaciones. Con esta función "princomp()" puedes especificar si quieres usar
-la matriz de correlaciones (corr = TRUE) o la matriz de covarianzas (cor=FALSE) y los resultados en el caso de usar la matriz de covarianzas (LA QUE PIDE EL ENUNCIADO) coinciden con los de la función que hemos intentado usar antes pero para "scale = FALSE".
-
-Propongo proceder así, en vernos podemos discutirlo más en detalle:
-
+A continuación se muestra el vector de medias de nuestro conjunto de datos:
 
 ```{r}
-europa.acp_2=princomp(europa[,1:9], cor = FALSE) 
-# Implementamos el modelo ACP
+vector_medias = europa %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE)
+vector_medias
+```
+
+Como se puede observar, el sector con mayor nivel medio de ocupación es el de la fabricación, servicios sociales y personales y agricultura. Estas tres actividades, conjuntamente, parece que abarquen más del 50% de la economía (en media) de los países europeos. Por otro lado, el sector energético, el de la minería y las finanzas son los que tienen los niveles más bajos de ocupación.
+
+
+Ahora, como dice el enunciado, procedemos a hacer una análisis de componentes principales usando la matriz de covarianza. Se opta por este método porque todos los datos son porcentajes y, por tanto, están ya en una misma escala y no existe la necesidad de estandarizarlos. 
+
+```{r}
+# Construimos el ACP para covarianzas:
+# Tomamos todas las variables numéricas
 # Al tomar cor = FALSE estamos usando la matriz de covarianzas
+
+europa.acp_2=princomp(europa[,2:10], cor = FALSE) 
+
 europa.acp_2
 ```
 
-1) Hacemos un summary y vemos cuáles son los valores propios, la varianza explicada por cada componente y la varianza acumulada.
-
-El problema (o no, no lo sé del todo) con la variabilidad acumulada es que prácticamente toda la acumula la primera componente principal y que con únicamente extenderla a 2 componentes principales ya abarcamos másdel 90% de la variabilidad, lo que en teoría debería de ser bueno.
-
-Lo que pasa es que creo que hay ciertos outliers que hacen que se vayan de madre los números y que realmente deberíamos quizás de excluir esos países y hacer el análisis sin tenerlos en cuenta (Turquía, Yugoslavia, los vimos en el análisis incorrecto que intentamos hacer al principio, de eso sí que podemos fiarnos).
+Estudiemos ahora qué porcentaje de la variabilidad total del Dataset viene representada por cada componente principal y, también, en qué medida contribuye cada una de las variables en las direcciones que determinan las componentes principales (porque cada CP es una combinación lineal de las variables con las que trabajamos).
 
 ```{r}
 summary(europa.acp_2)
 ```
 
-Podemos complementar de forma más visual la aportación de variabilidad que refleja cada una de las componentes con un gráfico. Esto debería de sugerirnos cuántos componentes retener.
+```{r}
+fviz_eig(europa.acp_2, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales")
+```
 
 ```{r}
-fviz_eig(europa.acp_2, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las direcciones principales")
+europa.acp_2$loadings
 ```
 
 
-3) Examinar las cargas de los componentes principales para entender cómo cada variable original contribuye a cada componente. Esto nos debería de ser de ayuda para interpretar el significado de los componentes.
+En principio, dado que la primera componente principal acumula la gran mayoría de la variabilidad no sería descabellado pensar en reducir el problema a una sola dimensión. No obstante, si nos fijamos en qué sectores contribuyen a ésta observamos que un número considerable de variables no se ven representadas (la función omite los valores de contribución inferiores a 0.1). Esto nos dice que varios sectores económicos (exactamente 5).
+
+Si quisiéramos continuar con este estudio sin vernos penalizados por tomar un número excesivo de variables, es decir, habiendo reducido la dimensionalidad del problema asumiendo ciertas pérdidas de información, optaríamos por usar entre 2 y 3 componentes principales. En caso de coger 2 lo haríamos siendo conscientes de que habría algunas variables que no quedarían bien representadas, pero igualmente sí que estarían bien representados los sectores económicos más influyentes en media (agricultura, fabricación, servicios sociales e industria de servicio).
+
+
+Nos extraña que la agricultura no sea la variable que tenga un mayor nivel medio de ocupación a nivel europeo pero, sin embargo, es la que tiene la mayor variabilidad dentro de los sectores económicos. Podemos verlo en el vector de varianzas muestrales de nuestro conjunto de datos.
 
 ```{r}
-loadings(europa.acp_2) 
-# Examinamos los pesos de cada variable en cada componente principal
-# El problema es que MIN, ENE, CON no están representadas en ninguna de las primeras.
+vector_var = europa %>%
+  summarise_if(is.numeric, var, na.rm = TRUE)
+vector_var
 ```
 
-
-4) Hacer un biplot para visualizar simultáneamente las cargas y los scores de los componentes principales. Básicamente hacer el gráfico redondito con el círculo.
-
-Esto debería de proporcionar una visión clara de cómo se relacionan las variables y los países en el espacio de las CP1 y CP2
-
-
-```{r}
-europa %<>% mutate(Pais=row.names(.)) %>% relocate(Pais,.before = Agr)
-rownames(europa) = NULL
-```
-
+Esto nos hace pensar que pudiera haber algunos países que sean extremadamente agrícolas en comparación con el resto de países europeos. Si representamos esto en una gráfica podremos detectar posibles *outliers*.
 
 
 ```{r}
 ggbiplot(pcobj=europa.acp_2,
-         choices = c(1,2), #Indicamos la cantidad de componentes principales que queremos
-         obs.scale = 1,var.scale = 1,
-         labels = europa[,1],
-         varname.size = 5,
+         choices = c(1,2), #Indicamos los componentes principales
+         obs.scale = 1, var.scale = 1,  # Escala
+         labels = europa[,1],          # Etiquetas
+         varname.size = 4,             # Tamaño de letra sectores econ.
          circle = TRUE
-         )+labs(title = "Proyección en 2 dimensiones")
-
+         )+labs(title = "Proyección en 2D")
 ```
 
-Análisis de los Scores: Revisa los scores de los componentes principales para ver cómo cada observación (país) se posiciona en los componentes principales seleccionados. Esto es útil para identificar patrones o agrupaciones.
+Observamos que Turquía y Yugoslavia son los países más alejados del resto. Esto se debe a que tienen una gran componente agrícola en su economía. También dudamos de si incluir a Grecia en este grupo. Si nos fijamos en los datos iniciales de estos 3 países vemos ninguno de ellos baja del 40% en agricultura e incluso en Turquía sobrepasa el 65% del total de la actividad económica. Por otro lado, destacar que Grecia y Yugoslavia tienen niveles similares en su segunda actividad más preponderante, la fabricación.
 
-```{r}
-scores <- predict(europa.acp_2)
-head(scores)
-```
-
+Veamos ahora qué diferencias surgen si eliminamos algunos de estos países de nuestro conjunto de datos. ¿Cambiarán las componentes principales?
 
 ```{r}
 
-ggbiplot(europa.acp_2, choices = c(1, 2), labels = europa[,1]) +
-  ggtitle("Biplot de PCA") +
-  theme_minimal()
+# Abordaremos dos escenarios posibles:
 
+europa_1 <- europa[-c(18), ] # Exluimos Turquía
+europa_2 <- europa[-c(18, 26), ] # Exluimos Yugoslavia y Turquía
+europa_3 <- europa[-c(12, 18, 26), ] # Exluimos Yugoslavia, Grecia y Turquía
+
+
+# Ahora realizamos el PCA en el conjunto de datos modificado, sin Turquía y Yugoslavia:
+
+europa_1.acp <- princomp(europa_1[, 2:10], cor = FALSE)
+europa_2.acp <- princomp(europa_2[, 2:10], cor = FALSE)
+europa_3.acp <- princomp(europa_3[, 2:10], cor = FALSE)
+
+fviz_eig(europa_1.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales")
+fviz_eig(europa_2.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales")
+fviz_eig(europa_3.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales")
+
+
+europa_1.acp$loadings
+europa_2.acp$loadings
+europa_3.acp$loadings
 ```
 
-PROPUESTA: eliminar yugoslavia y turquía y ver qué pasa
-
-```{r}
-europa = read.table("europa.dat")
-
-
-# Suponiendo que tu dataframe se llama 'europa'
-europa_sin_tur_yug <- europa[-c(12, 18, 26), ] # Exluimos Yugoslavia y Turquía
-
-
-# Ahora realizamos el PCA en el conjunto de datos modificado, sin Turquía y Yugoslavia
-europa.acp_sin_tur_yug <- princomp(europa_sin_tur_yug[, 1:9], cor = FALSE)
-europa.acp_sin_tur_yug
-
-
-```
-
-```{r}
-europa_sin_tur_yug %<>% mutate(Pais=row.names(.)) %>% relocate(Pais,.before = Agr)
-rownames(europa) = NULL
-
-
-europa_sin_tur_yug
-```
+Si comparamos las componentes principales de las 3 posibles elecciones de países eliminados con el modelo inicial no se observan diferencias significativas entre ellos. Los componentes principales 1 y 2 tienen pesos muy similares y tendríamos que aumentar demasiado la dimensión del problema en cualquier caso para poder abarcar bien el problema. Finalmente, optaremos por estudiar el modelo inicial, sin eliminar ningún país, para no perder información.
 
 
 
-```{r}
-ggbiplot(europa.acp_sin_tur_yug, choices = c(1, 2), labels = europa_sin_tur_yug[,1]) +
-  ggtitle("Biplot de PCA") +
-  theme_minimal()
-
-```
-
-```{r}
-fviz_eig(europa.acp_sin_tur_yug, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las direcciones principales")
-
-```
 
 
-```{r}
-loadings(europa.acp_sin_tur_yug) 
-# Examinamos los pesos de cada variable en cada componente principal
-# El problema es que MIN, ENE, CON no están representadas en ninguna de las primeras.
-```
 
-```{r}
-#Mmedias = europa %>%
-# + summarise_if(is.numeric, mean, na.rm = TRUE)
-```
+
 

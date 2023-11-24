@@ -67,6 +67,7 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>Este es el <a href="https://github.com/GSMir/Entrega5">repositorio</a> de GitHub en el que alojaremos todos los archivos relacionados con esta entrega.</p>
 <div class="cell">
 
 </div>
@@ -76,41 +77,48 @@ ul.task-list li input[type="checkbox"] {
 <p>En primer lugar procedemos a cargar nuestros datos:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>                     Agr Min  Fab Ene  Con   IS  Fin  SSP  TC
-Belgica              3.3 0.9 27.6 0.9  8.2 19.1  6.2 26.6 7.2
-Dinamarca            9.2 0.1 21.8 0.6  8.3 14.6  6.5 32.2 7.1
-Francia             10.8 0.8 27.5 0.9  8.9 16.8  6.0 22.6 5.7
-Alemania Occidental  6.7 1.3 35.8 0.9  7.3 14.4  5.0 22.3 6.1
-Irlanda             23.2 1.0 20.7 1.3  7.5 16.8  2.8 20.8 6.1
-Italia              15.9 0.6 27.6 0.5 10.0 18.1  1.6 20.1 5.7
-Luxemburgo           7.7 3.1 30.8 0.8  9.2 18.5  4.6 19.2 6.2
-Holanda              6.3 0.1 22.5 1.0  9.9 18.0  6.8 28.5 6.8
-Inglaterra           2.7 1.4 30.2 1.4  6.9 16.9  5.7 28.3 6.4
-Austria             12.7 1.1 30.2 1.4  9.0 16.8  4.9 16.8 7.0
-Finlandia           13.0 0.4 25.9 1.3  7.4 14.7  5.5 24.3 7.6
-Grecia              41.4 0.6 17.6 0.6  8.1 11.5  2.4 11.0 6.7
-Noruega              9.0 0.5 22.4 0.8  8.6 16.9  4.7 27.6 9.4
-Portugal            27.8 0.3 24.5 0.6  8.4 13.3  2.7 16.7 5.7
-Espana              22.9 0.8 28.5 0.7 11.5  9.7  8.5 11.8 5.5
-Suecia               6.1 0.4 25.9 0.8  7.2 14.4  6.0 32.4 6.8
-Suiza                7.7 0.2 37.8 0.8  9.5 17.5  5.3 15.4 5.7
-Turquia             66.8 0.7  7.9 0.1  2.8  5.2  1.1 11.9 3.2
-Bulgaria            23.6 1.9 32.3 0.6  7.9  8.0  0.7 18.2 6.7
-Checoslovaquia      16.5 2.9 35.5 1.2  8.7  9.2  0.9 17.9 7.0
-Alemania Oriental    4.2 2.9 41.2 1.3  7.6 11.2  1.2 22.1 8.4
-Hungria             21.7 3.1 29.6 1.9  8.2  9.4  0.9 17.2 8.0
-Polonia             31.1 2.5 25.7 0.9  8.4  7.5  0.9 16.1 6.9
-Rumania             34.7 2.1 30.1 0.6  8.7  5.9  1.3 11.7 5.0
-Union Sovietica     23.7 1.4 25.8 0.6  9.2  6.1  0.5 23.6 9.3
-Yugoslavia          48.7 1.5 16.8 1.1  4.9  6.4 11.3  5.3 4.0</code></pre>
+<pre><code>                  País  Agr Min  Fab Ene  Con   IS  Fin  SSP  TC
+1              Belgica  3.3 0.9 27.6 0.9  8.2 19.1  6.2 26.6 7.2
+2            Dinamarca  9.2 0.1 21.8 0.6  8.3 14.6  6.5 32.2 7.1
+3              Francia 10.8 0.8 27.5 0.9  8.9 16.8  6.0 22.6 5.7
+4  Alemania Occidental  6.7 1.3 35.8 0.9  7.3 14.4  5.0 22.3 6.1
+5              Irlanda 23.2 1.0 20.7 1.3  7.5 16.8  2.8 20.8 6.1
+6               Italia 15.9 0.6 27.6 0.5 10.0 18.1  1.6 20.1 5.7
+7           Luxemburgo  7.7 3.1 30.8 0.8  9.2 18.5  4.6 19.2 6.2
+8              Holanda  6.3 0.1 22.5 1.0  9.9 18.0  6.8 28.5 6.8
+9           Inglaterra  2.7 1.4 30.2 1.4  6.9 16.9  5.7 28.3 6.4
+10             Austria 12.7 1.1 30.2 1.4  9.0 16.8  4.9 16.8 7.0
+11           Finlandia 13.0 0.4 25.9 1.3  7.4 14.7  5.5 24.3 7.6
+12              Grecia 41.4 0.6 17.6 0.6  8.1 11.5  2.4 11.0 6.7
+13             Noruega  9.0 0.5 22.4 0.8  8.6 16.9  4.7 27.6 9.4
+14            Portugal 27.8 0.3 24.5 0.6  8.4 13.3  2.7 16.7 5.7
+15              Espana 22.9 0.8 28.5 0.7 11.5  9.7  8.5 11.8 5.5
+16              Suecia  6.1 0.4 25.9 0.8  7.2 14.4  6.0 32.4 6.8
+17               Suiza  7.7 0.2 37.8 0.8  9.5 17.5  5.3 15.4 5.7
+18             Turquia 66.8 0.7  7.9 0.1  2.8  5.2  1.1 11.9 3.2
+19            Bulgaria 23.6 1.9 32.3 0.6  7.9  8.0  0.7 18.2 6.7
+20      Checoslovaquia 16.5 2.9 35.5 1.2  8.7  9.2  0.9 17.9 7.0
+21   Alemania Oriental  4.2 2.9 41.2 1.3  7.6 11.2  1.2 22.1 8.4
+22             Hungria 21.7 3.1 29.6 1.9  8.2  9.4  0.9 17.2 8.0
+23             Polonia 31.1 2.5 25.7 0.9  8.4  7.5  0.9 16.1 6.9
+24             Rumania 34.7 2.1 30.1 0.6  8.7  5.9  1.3 11.7 5.0
+25     Union Sovietica 23.7 1.4 25.8 0.6  9.2  6.1  0.5 23.6 9.3
+26          Yugoslavia 48.7 1.5 16.8 1.1  4.9  6.4 11.3  5.3 4.0</code></pre>
 </div>
 </div>
-<p>Creo que lo anterior no es correcto. Si os fijáis en el enunciado pone que se tiene que usar el PCA de covarianzas, no el de correlaciones. Con esta función “princomp()” puedes especificar si quieres usar la matriz de correlaciones (corr = TRUE) o la matriz de covarianzas (cor=FALSE) y los resultados en el caso de usar la matriz de covarianzas (LA QUE PIDE EL ENUNCIADO) coinciden con los de la función que hemos intentado usar antes pero para “scale = FALSE”.</p>
-<p>Propongo proceder así, en vernos podemos discutirlo más en detalle:</p>
+<p>A continuación se muestra el vector de medias de nuestro conjunto de datos:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>       Agr      Min      Fab       Ene      Con       IS Fin      SSP       TC
+1 19.13077 1.253846 27.00769 0.9076923 8.165385 12.95769   4 20.02308 6.546154</code></pre>
+</div>
+</div>
+<p>Como se puede observar, el sector con mayor nivel medio de ocupación es el de la fabricación, servicios sociales y personales y agricultura. Estas tres actividades, conjuntamente, parece que abarquen más del 50% de la economía (en media) de los países europeos. Por otro lado, el sector energético, el de la minería y las finanzas son los que tienen los niveles más bajos de ocupación.</p>
+<p>Ahora, como dice el enunciado, procedemos a hacer una análisis de componentes principales usando la matriz de covarianza. Se opta por este método porque todos los datos son porcentajes y, por tanto, están ya en una misma escala y no existe la necesidad de estandarizarlos.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
-princomp(x = europa[, 1:9], cor = FALSE)
+princomp(x = europa[, 2:10], cor = FALSE)
 
 Standard deviations:
      Comp.1      Comp.2      Comp.3      Comp.4      Comp.5      Comp.6 
@@ -121,11 +129,7 @@ Standard deviations:
  9  variables and  26 observations.</code></pre>
 </div>
 </div>
-<ol type="1">
-<li>Hacemos un summary y vemos cuáles son los valores propios, la varianza explicada por cada componente y la varianza acumulada.</li>
-</ol>
-<p>El problema (o no, no lo sé del todo) con la variabilidad acumulada es que prácticamente toda la acumula la primera componente principal y que con únicamente extenderla a 2 componentes principales ya abarcamos másdel 90% de la variabilidad, lo que en teoría debería de ser bueno.</p>
-<p>Lo que pasa es que creo que hay ciertos outliers que hacen que se vayan de madre los números y que realmente deberíamos quizás de excluir esos países y hacer el análisis sin tenerlos en cuenta (Turquía, Yugoslavia, los vimos en el análisis incorrecto que intentamos hacer al principio, de eso sí que podemos fiarnos).</p>
+<p>Estudiemos ahora qué porcentaje de la variabilidad total del Dataset viene representada por cada componente principal y, también, en qué medida contribuye cada una de las variables en las direcciones que determinan las componentes principales (porque cada CP es una combinación lineal de las variables con las que trabajamos).</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
@@ -139,15 +143,11 @@ Proportion of Variance 0.002812041 0.00113136 0.0001745417 5.139960e-06
 Cumulative Proportion  0.998688959 0.99982032 0.9999948600 1.000000e+00</code></pre>
 </div>
 </div>
-<p>Podemos complementar de forma más visual la aportación de variabilidad que refleja cada una de las componentes con un gráfico. Esto debería de sugerirnos cuántos componentes retener.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<ol start="3" type="1">
-<li>Examinar las cargas de los componentes principales para entender cómo cada variable original contribuye a cada componente. Esto nos debería de ser de ayuda para interpretar el significado de los componentes.</li>
-</ol>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -169,120 +169,73 @@ Proportion Var  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111
 Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</code></pre>
 </div>
 </div>
-<ol start="4" type="1">
-<li>Hacer un biplot para visualizar simultáneamente las cargas y los scores de los componentes principales. Básicamente hacer el gráfico redondito con el círculo.</li>
-</ol>
-<p>Esto debería de proporcionar una visión clara de cómo se relacionan las variables y los países en el espacio de las CP1 y CP2</p>
-<div class="cell">
-
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Análisis de los Scores: Revisa los scores de los componentes principales para ver cómo cada observación (país) se posiciona en los componentes principales seleccionados. Esto es útil para identificar patrones o agrupaciones.</p>
+<p>En principio, dado que la primera componente principal acumula la gran mayoría de la variabilidad no sería descabellado pensar en reducir el problema a una sola dimensión. No obstante, si nos fijamos en qué sectores contribuyen a ésta observamos que un número considerable de variables no se ven representadas (la función omite los valores de contribución inferiores a 0.1). Esto nos dice que varios sectores económicos (exactamente 5).</p>
+<p>Si quisiéramos continuar con este estudio sin vernos penalizados por tomar un número excesivo de variables, es decir, habiendo reducido la dimensionalidad del problema asumiendo ciertas pérdidas de información, optaríamos por usar entre 2 y 3 componentes principales. En caso de coger 2 lo haríamos siendo conscientes de que habría algunas variables que no quedarían bien representadas, pero igualmente sí que estarían bien representados los sectores económicos más influyentes en media (agricultura, fabricación, servicios sociales e industria de servicio).</p>
+<p>Nos extraña que la agricultura no sea la variable que tenga un mayor nivel medio de ocupación a nivel europeo pero, sin embargo, es la que tiene la mayor variabilidad dentro de los sectores económicos. Podemos verlo en el vector de varianzas muestrales de nuestro conjunto de datos.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>                        Comp.1     Comp.2     Comp.3     Comp.4     Comp.5
-Belgica             -17.516687  4.9262285 -2.3552809  0.1940007  0.4907275
-Dinamarca           -11.496688 11.6617664  3.0020283 -2.5328564 -0.2620503
-Francia              -9.128686  2.1682821 -2.7503057 -0.1289183  0.3735587
-Alemania Occidental -14.393424 -5.0474938  0.2056895 -1.2143729  2.5785719
-Irlanda               4.458174  6.1315650 -1.9240008  3.4809060  0.3480591
-Italia               -4.026684  0.3888953 -2.4058619  4.8100625 -0.2469394
-                        Comp.6      Comp.7      Comp.8       Comp.9
-Belgica             -0.5872563  0.02747862  0.26151251 -0.008040795
-Dinamarca            1.0001427 -0.16185051  0.11322147  0.098177832
-Francia              0.7406204 -0.44855421 -0.07200325 -0.002822468
-Alemania Occidental  0.2612405  0.38250268  0.11444269 -0.043957458
-Irlanda             -0.5398972 -0.35750610 -0.42087184  0.072290598
-Italia               1.5020677 -0.24928213  0.05164591  0.034174567</code></pre>
+<pre><code>       Agr       Min      Fab       Ene      Con       IS    Fin      SSP
+1 241.6958 0.9409846 49.10874 0.1415385 2.707954 20.93294 7.8768 46.64265
+        TC
+1 1.936185</code></pre>
 </div>
 </div>
+<p>Esto nos hace pensar que pudiera haber algunos países que sean extremadamente agrícolas en comparación con el resto de países europeos. Si representamos esto en una gráfica podremos detectar posibles <em>outliers</em>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="entrega5_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Observamos que Turquía y Yugoslavia son los países más alejados del resto. Esto se debe a que tienen una gran componente agrícola en su economía. También dudamos de si incluir a Grecia en este grupo. Si nos fijamos en los datos iniciales de estos 3 países vemos ninguno de ellos baja del 40% en agricultura e incluso en Turquía sobrepasa el 65% del total de la actividad económica. Por otro lado, destacar que Grecia y Yugoslavia tienen niveles similares en su segunda actividad más preponderante, la fabricación.</p>
+<p>Veamos ahora qué diferencias surgen si eliminamos algunos de estos países de nuestro conjunto de datos. ¿Cambiarán las componentes principales?</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="entrega5_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<p>PROPUESTA: eliminar yugoslavia y turquía y ver qué pasa</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Call:
-princomp(x = europa_sin_tur_yug[, 1:9], cor = FALSE)
-
-Standard deviations:
-     Comp.1      Comp.2      Comp.3      Comp.4      Comp.5      Comp.6 
-10.74681779  6.08841336  3.64871212  1.85565439  1.17576627  0.78406429 
-     Comp.7      Comp.8      Comp.9 
- 0.63400877  0.23901080  0.03827316 
-
- 9  variables and  23 observations.</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>                                   Pais  Agr Min  Fab Ene  Con   IS Fin  SSP
-Belgica                         Belgica  3.3 0.9 27.6 0.9  8.2 19.1 6.2 26.6
-Dinamarca                     Dinamarca  9.2 0.1 21.8 0.6  8.3 14.6 6.5 32.2
-Francia                         Francia 10.8 0.8 27.5 0.9  8.9 16.8 6.0 22.6
-Alemania Occidental Alemania Occidental  6.7 1.3 35.8 0.9  7.3 14.4 5.0 22.3
-Irlanda                         Irlanda 23.2 1.0 20.7 1.3  7.5 16.8 2.8 20.8
-Italia                           Italia 15.9 0.6 27.6 0.5 10.0 18.1 1.6 20.1
-Luxemburgo                   Luxemburgo  7.7 3.1 30.8 0.8  9.2 18.5 4.6 19.2
-Holanda                         Holanda  6.3 0.1 22.5 1.0  9.9 18.0 6.8 28.5
-Inglaterra                   Inglaterra  2.7 1.4 30.2 1.4  6.9 16.9 5.7 28.3
-Austria                         Austria 12.7 1.1 30.2 1.4  9.0 16.8 4.9 16.8
-Finlandia                     Finlandia 13.0 0.4 25.9 1.3  7.4 14.7 5.5 24.3
-Noruega                         Noruega  9.0 0.5 22.4 0.8  8.6 16.9 4.7 27.6
-Portugal                       Portugal 27.8 0.3 24.5 0.6  8.4 13.3 2.7 16.7
-Espana                           Espana 22.9 0.8 28.5 0.7 11.5  9.7 8.5 11.8
-Suecia                           Suecia  6.1 0.4 25.9 0.8  7.2 14.4 6.0 32.4
-Suiza                             Suiza  7.7 0.2 37.8 0.8  9.5 17.5 5.3 15.4
-Bulgaria                       Bulgaria 23.6 1.9 32.3 0.6  7.9  8.0 0.7 18.2
-Checoslovaquia           Checoslovaquia 16.5 2.9 35.5 1.2  8.7  9.2 0.9 17.9
-Alemania Oriental     Alemania Oriental  4.2 2.9 41.2 1.3  7.6 11.2 1.2 22.1
-Hungria                         Hungria 21.7 3.1 29.6 1.9  8.2  9.4 0.9 17.2
-Polonia                         Polonia 31.1 2.5 25.7 0.9  8.4  7.5 0.9 16.1
-Rumania                         Rumania 34.7 2.1 30.1 0.6  8.7  5.9 1.3 11.7
-Union Sovietica         Union Sovietica 23.7 1.4 25.8 0.6  9.2  6.1 0.5 23.6
-                     TC
-Belgica             7.2
-Dinamarca           7.1
-Francia             5.7
-Alemania Occidental 6.1
-Irlanda             6.1
-Italia              5.7
-Luxemburgo          6.2
-Holanda             6.8
-Inglaterra          6.4
-Austria             7.0
-Finlandia           7.6
-Noruega             9.4
-Portugal            5.7
-Espana              5.5
-Suecia              6.8
-Suiza               5.7
-Bulgaria            6.7
-Checoslovaquia      7.0
-Alemania Oriental   8.4
-Hungria             8.0
-Polonia             6.9
-Rumania             5.0
-Union Sovietica     9.3</code></pre>
-</div>
-</div>
-<div class="cell">
 <div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="cell">
 <div class="cell-output-display">
-<p><img src="entrega5_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid" width="672"></p>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+    Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8 Comp.9
+Agr  0.870         0.138         0.211  0.197                0.331
+Min                                    -0.457 -0.764  0.294  0.320
+Fab -0.195 -0.825  0.101         0.257  0.243  0.158         0.334
+Ene                                    -0.220        -0.905  0.353
+Con                       0.160 -0.799  0.432 -0.188         0.331
+IS  -0.220  0.220 -0.611  0.552  0.299                0.116  0.332
+Fin         0.179 -0.432 -0.803                       0.125  0.334
+SSP -0.393  0.469  0.607         0.235  0.296                0.327
+TC                 0.185  0.101 -0.315 -0.602  0.576  0.216  0.337
+
+               Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8 Comp.9
+SS loadings     1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000
+Proportion Var  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111
+Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</code></pre>
 </div>
-<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+    Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8 Comp.9
+Agr  0.871  0.152                0.278                       0.331
+Min                       0.135 -0.248 -0.305 -0.780  0.311  0.324
+Fab -0.136 -0.831  0.159         0.330         0.162         0.334
+Ene                                    -0.248        -0.896  0.349
+Con               -0.115 -0.237 -0.381  0.810 -0.136         0.326
+IS  -0.238  0.193 -0.690  0.511  0.192                0.109  0.332
+Fin -0.112  0.112 -0.281 -0.794  0.215 -0.282         0.153  0.338
+SSP -0.390  0.475  0.605         0.334  0.162                0.327
+TC                 0.164        -0.637 -0.271  0.567  0.215  0.339
+
+               Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8 Comp.9
+SS loadings     1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000
+Proportion Var  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111
+Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Loadings:
@@ -303,9 +256,7 @@ Proportion Var  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111  0.111
 Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</code></pre>
 </div>
 </div>
-<div class="cell">
-
-</div>
+<p>Si comparamos las componentes principales de las 3 posibles elecciones de países eliminados con el modelo inicial no se observan diferencias significativas entre ellos. Los componentes principales 1 y 2 tienen pesos muy similares y tendríamos que aumentar demasiado la dimensión del problema en cualquier caso para poder abarcar bien el problema. Finalmente, optaremos por estudiar el modelo inicial, sin eliminar ningún país, para no perder información.</p>
 
 </main>
 <!-- /main column -->
