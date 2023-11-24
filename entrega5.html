@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,7 +18,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
 </style>
@@ -34,12 +34,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="entrega5_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="entrega5_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="entrega5_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="entrega5_files/libs/htmlwidgets-1.6.3/htmlwidgets.js"></script>
+<script src="entrega5_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
 <script src="entrega5_files/libs/plotly-binding-4.10.3/plotly.js"></script>
 <script src="entrega5_files/libs/typedarray-0.1/typedarray.min.js"></script>
 <script src="entrega5_files/libs/jquery-3.5.1/jquery.min.js"></script>
-<link href="entrega5_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
-<script src="entrega5_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="entrega5_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="entrega5_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="entrega5_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
 <script src="entrega5_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
@@ -76,9 +76,17 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>Este es el <a href="https://github.com/GSMir/Entrega5">repositorio</a> de GitHub en el que alojaremos todos los archivos relacionados con esta entrega.</p>
-<p><strong>Considera los datos <em>“europa.dat”</em> que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:</strong></p>
-<p><strong>Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.</strong></p>
-<p><strong>Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.</strong></p>
+<div class="cell">
+
+</div>
+<section id="enunciado" class="level3">
+<h3 class="anchored" data-anchor-id="enunciado">Enunciado:</h3>
+<p>Considera los datos <em>“europa.dat”</em> que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:</p>
+<p>Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.</p>
+<p>Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.</p>
+</section>
+<section id="resolución" class="level3">
+<h3 class="anchored" data-anchor-id="resolución">Resolución:</h3>
 <p>En primer lugar procedemos a cargar nuestros datos:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -122,16 +130,60 @@ ul.task-list li input[type="checkbox"] {
 <p>Ahora, como dice el enunciado, procedemos a hacer una análisis de componentes principales usando la matriz de covarianza. Se opta por este método porque todos los datos son porcentajes y, por tanto, están ya en una misma escala y no existe la necesidad de estandarizarlos.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>Call:
-princomp(x = europa[, 2:10], cor = FALSE)
-
-Standard deviations:
-     Comp.1      Comp.2      Comp.3      Comp.4      Comp.5      Comp.6 
-17.08176356  6.48234700  3.82393204  2.32861792  1.53278255  1.00289626 
-     Comp.7      Comp.8      Comp.9 
- 0.63612956  0.24985891  0.04287707 
-
- 9  variables and  26 observations.</code></pre>
+<pre><code>          Comp.1       Comp.2      Comp.3     Comp.4      Comp.5      Comp.6
+ [1,] -17.516687   4.92622849 -2.35528094  0.1940007  0.49072745 -0.58725632
+ [2,] -11.496688  11.66176637  3.00202830 -2.5328564 -0.26205034  1.00014269
+ [3,]  -9.128686   2.16828207 -2.75030568 -0.1289183  0.37355869  0.74062040
+ [4,] -14.393424  -5.04749385  0.20568951 -1.2143729  2.57857191  0.26124048
+ [5,]   4.458174   6.13156498 -1.92400082  3.4809060  0.34805906 -0.53989717
+ [6,]  -4.026684   0.38889529 -2.40586194  4.8100625 -0.24693944  1.50206770
+ [7,] -12.089752  -2.33236877 -4.62806669  1.9653471 -0.03246954 -1.08490154
+ [8,] -13.900455   9.72359023 -1.70981367 -0.6817669 -1.51095027  0.83583339
+ [9,] -18.728675   3.33178946  0.58938403 -1.0073981  2.29959070 -0.44287447
+[10,]  -6.471418  -3.35662962 -4.75660272  1.2741444 -0.51798957 -0.83150513
+[11,]  -6.837047   3.97634061  0.06757235 -0.9640481  0.27383594 -0.68129276
+[12,]  25.427083   1.80467718 -2.91613130  2.8567757 -1.87953959 -0.59887931
+[13,] -10.972019   8.85877780  0.22621023  0.5923626 -2.00656646 -1.41674308
+[14,]   9.403865   0.08570061 -1.23656256  2.1803190  0.06780428  1.03041185
+[15,]   5.774973  -6.15867547 -4.87904446 -4.4809274 -3.04038851  1.70355376
+[16,] -15.311975   8.52674423  3.92210148 -2.6339347  1.41721975  0.73494415
+[17,] -12.683839  -9.77920054 -5.68921238  1.0438972  1.24534771  1.16079249
+[18,]  52.115644   8.64165980  2.96515501  1.7960412  3.17620617  0.36536971
+[19,]   4.156791  -6.70685051  4.93995679  0.1372004  0.56054055  0.54824453
+[20,]  -3.246127  -9.23467980  3.78225558  0.1477919 -0.08257234 -0.24180861
+[21,] -17.415527 -10.73233092  4.89564722 -0.2453801  1.36457552 -1.27464580
+[22,]   3.135737  -4.98695108  2.98354179  0.7306784 -1.31541699 -1.88083050
+[23,]  13.315709  -2.94482700  3.58894681  0.4854554 -1.36139215 -0.32653024
+[24,]  17.011336  -9.12523022  2.58152423 -0.2380157 -0.03962236  1.46062121
+[25,]   4.587043   0.87197041  8.44875566 -0.9788693 -2.93255455  0.07846592
+[26,]  34.832648  -0.69274975 -6.94788580 -6.5884944  1.03241438 -1.51514335
+           Comp.7       Comp.8       Comp.9
+ [1,]  0.02747862  0.261512512 -0.008040795
+ [2,] -0.16185051  0.113221471  0.098177832
+ [3,] -0.44855421 -0.072003249 -0.002822468
+ [4,]  0.38250268  0.114442694 -0.043957458
+ [5,] -0.35750610 -0.420871836  0.072290598
+ [6,] -0.24928213  0.051645913  0.034174567
+ [7,] -1.70709926  0.657656083  0.021025084
+ [8,] -0.51429138 -0.273012947 -0.066889344
+ [9,] -0.44816057 -0.272105619 -0.033049026
+[10,]  0.50543393 -0.255764025 -0.015749373
+[11,]  0.92797085 -0.279485018  0.039399018
+[12,]  0.83983051  0.137603535 -0.016322341
+[13,]  0.88213892  0.371151398 -0.058993757
+[14,]  0.52381804 -0.075302827  0.017535977
+[15,] -0.25749789 -0.039086940 -0.039716393
+[16,] -0.03745853 -0.024572541 -0.018992003
+[17,]  1.25830466  0.004260537  0.008689042
+[18,] -0.05968267  0.116399862 -0.058269133
+[19,]  0.22155473  0.184340613 -0.023526405
+[20,] -0.57988066 -0.123332326 -0.065489414
+[21,]  0.43732622  0.146397327  0.046067998
+[22,] -0.57747180 -0.571402883 -0.003437050
+[23,] -0.66030520  0.017151170 -0.008766194
+[24,] -0.55746312 -0.026902957  0.047287948
+[25,]  0.62537794  0.198893703  0.034657402
+[26,] -0.01523307  0.059166352  0.044715689</code></pre>
 </div>
 </div>
 <p>Estudiemos ahora qué porcentaje de la variabilidad total del Dataset viene representada por cada componente principal y, también, en qué medida contribuye cada una de las variables en las direcciones que determinan las componentes principales (porque cada CP es una combinación lineal de las variables con las que trabajamos).</p>
@@ -176,13 +228,13 @@ Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</c
 </div>
 <p>En principio, dado que la primera componente principal acumula la gran mayoría de la variabilidad no sería descabellado pensar en reducir el problema a una sola dimensión. No obstante, si nos fijamos en qué sectores contribuyen a ésta observamos que un número considerable de variables no se ven representadas (la función omite los valores de contribución inferiores a 0.1). Esto nos dice que varios sectores económicos (exactamente 5).</p>
 <p>Si quisiéramos continuar con este estudio sin vernos penalizados por tomar un número excesivo de variables, es decir, habiendo reducido la dimensionalidad del problema asumiendo ciertas pérdidas de información, optaríamos por usar entre 2 y 3 componentes principales. En caso de coger 2 lo haríamos siendo conscientes de que habría algunas variables que no quedarían bien representadas, pero igualmente sí que estarían bien representados los sectores económicos más influyentes en media (agricultura, fabricación, servicios sociales e industria de servicio).</p>
-<p>Nos extraña que la agricultura no sea la variable que tenga un mayor nivel medio de ocupación a nivel europeo pero, sin embargo, es la que tiene la mayor variabilidad dentro de los sectores económicos. Podemos verlo en el vector de varianzas muestrales de nuestro conjunto de datos.</p>
+<p>Nos extraña que la agricultura no sea la variable que tenga un mayor nivel medio de ocupación a nivel europeo pero, sin embargo, es la que tiene la mayor variabilidad dentro de los sectores económicos. Podemos verlo en el vector de desviaciones típicas muestrales de nuestro conjunto de datos.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>       Agr       Min      Fab       Ene      Con       IS    Fin      SSP
-1 241.6958 0.9409846 49.10874 0.1415385 2.707954 20.93294 7.8768 46.64265
+<pre><code>       Agr       Min      Fab      Ene      Con       IS      Fin      SSP
+1 15.54657 0.9700436 7.007763 0.376216 1.645586 4.575253 2.806564 6.829542
         TC
-1 1.936185</code></pre>
+1 1.391469</code></pre>
 </div>
 </div>
 <p>Esto nos hace pensar que pudiera haber algunos países que sean extremadamente agrícolas en comparación con el resto de países europeos. Si representamos esto en una gráfica podremos detectar posibles <em>outliers</em>.</p>
@@ -273,17 +325,33 @@ Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</c
 <p><img src="entrega5_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Para poder separar mejor los países en diferentes grupos, vamos a dibujar el grafico en 3D, de las tres componentes principales.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-c4e635ff2ce953de0f92" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-c4e635ff2ce953de0f92">{"x":{"visdat":{"204c4db224f5":["function () ","plotlyVisDat"]},"cur_data":"204c4db224f5","attrs":{"204c4db224f5":{"x":[-1.67728103620164,-0.934397492131028,-0.739975149768782,-0.835996511879207,0.101491833460153,-0.36811637453952,-1.03886877189347,-1.65543299885172,-1.59878686090995,-1.15360260902305,-0.972677179881507,2.07236434007615,-1.65374571603936,0.995576606378014,0.427398090321986,-1.06275793024845,-1.03758009271653,6.22427510849138,0.711509418739425,-0.417678061432472,-1.74624367131719,-0.567113187213531,1.09208478293711,2.01166160860495,-0.0494556785769696,3.87334753361521],"y":[-1.19806484139865,-2.08646480278072,-1.0994344474837,-0.0111556617081976,-0.405947821469221,-0.754603294916702,0.741149492389727,-1.96591210679542,-0.365883746646968,0.140321656514136,-0.733773615401227,-0.346597210522468,-1.05482685351619,-0.742343734261536,-0.604369243466225,-1.54786958613878,-0.727974399621264,-1.04544103752131,1.46769981287324,2.61281243500524,2.76035676309496,3.0824015866396,1.86824863837275,1.5738631242509,1.24193733425613,-0.798128439748099],"z":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886],"mode":"markers","text":null,"color":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"CP1"},"yaxis":{"title":"CP2"},"zaxis":{"title":"CP3"}},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-1.67728103620164,-0.934397492131028,-0.739975149768782,-0.835996511879207,0.101491833460153,-0.36811637453952,-1.03886877189347,-1.65543299885172,-1.59878686090995,-1.15360260902305,-0.972677179881507,2.07236434007615,-1.65374571603936,0.995576606378014,0.427398090321986,-1.06275793024845,-1.03758009271653,6.22427510849138,0.711509418739425,-0.417678061432472,-1.74624367131719,-0.567113187213531,1.09208478293711,2.01166160860495,-0.0494556785769696,3.87334753361521],"y":[-1.19806484139865,-2.08646480278072,-1.0994344474837,-0.0111556617081976,-0.405947821469221,-0.754603294916702,0.741149492389727,-1.96591210679542,-0.365883746646968,0.140321656514136,-0.733773615401227,-0.346597210522468,-1.05482685351619,-0.742343734261536,-0.604369243466225,-1.54786958613878,-0.727974399621264,-1.04544103752131,1.46769981287324,2.61281243500524,2.76035676309496,3.0824015866396,1.86824863837275,1.5738631242509,1.24193733425613,-0.798128439748099],"z":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886],"mode":"markers","type":"scatter3d","marker":{"colorbar":{"title":"","ticklen":2},"cmin":-3.05189662049886,"cmax":2.37594537206119,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886],"line":{"colorbar":{"title":"","ticklen":2},"cmin":-3.05189662049886,"cmax":2.37594537206119,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886]}},"frame":null},{"x":[-1.74624367131719,6.22427510849138],"y":[-2.08646480278072,3.0824015866396],"type":"scatter3d","mode":"markers","opacity":0,"hoverinfo":"none","showlegend":false,"marker":{"colorbar":{"title":"","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"cmin":-3.05189662049886,"cmax":2.37594537206119,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"color":[-3.05189662049886,2.37594537206119],"line":{"color":"rgba(255,127,14,1)"}},"z":[-3.05189662049886,2.37594537206119],"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><img src="entrega5_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Conclusiones, se puede observar que en el grafico hay 2 países muy alejados del resto como habíamos dicho antes. Estos son Turquia y Yugoslavia.</p>
-<p>Ahora vamos a intentar agrupar los países en grupos. Se puede observar que los paises de pueden agrupar en 2 grandes grupos.</p>
-<p>El primero que vamos a comentar es el grupo de Unión Soviética, Rumania, Bulgaria, Polonia, Checoslovaquia, Alemana Oriental y Hungria. Se puede observar que estos países tienen diversas cosas en común, todos estan en el este de Europa y además también estaban bajo la influencia de la Union Soviética.</p>
-<p>Como los paises restantes cuesta encontrar una linia divisoria para separarlos, vamos a agruparlos todos en un mismo grupo y luego lo vamos a subdividir en 2 subgrupos quedado algunos países fuero de estos. El primero de estos esta formado por los países Belgica, Francia, Suiza, Finlandia, España, Irlanda, Alemania Occidental, y Austria. Y el otro subgrupo es el de Grecia, Portugal, Italia y Noruega. Para los países restabtes que estan a la misma distancia de estos dos subgrupos no los vamos a poner en ninguno de ellos.</p>
+<p>Únicamente basándonos en las proyecciones sobre los distintos emparejamientos de las componentes principales es difícil obtener conclusiones a partir de las gráficas, por lo que para poder separar mejor los países en diferentes grupos, optamos por dibujar un gráfico 3D de las tres componentes principales.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1211840119edb22ff6c9" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1211840119edb22ff6c9">{"x":{"visdat":{"8406c4d7c67":["function () ","plotlyVisDat"]},"cur_data":"8406c4d7c67","attrs":{"8406c4d7c67":{"x":{},"y":{},"z":{},"mode":"markers+text","marker":{"size":10,"color":{}},"text":["Belgica","Dinamarca","Francia","Alemania Occidental","Irlanda","Italia","Luxemburgo","Holanda","Inglaterra","Austria","Finlandia","Grecia","Noruega","Portugal","Espana","Suecia","Suiza","Turquia","Bulgaria","Checoslovaquia","Alemania Oriental","Hungria","Polonia","Rumania","Union Sovietica","Yugoslavia"],"textposition":"top center","color":[-2.35528094228987,3.00202829574394,-2.75030568204373,0.205689514018576,-1.92400082257994,-2.40586194144031,-4.6280666882325,-1.70981366852821,0.589384034934998,-4.75660271991866,0.0675723465928546,-2.91613130453214,0.226210227739534,-1.2365625567509,-4.87904446288958,3.92210147760459,-5.68921238331698,2.96515500955137,4.93995678654824,3.78225557673266,4.89564722164241,2.98354178510278,3.58894680573942,2.58152422836269,8.4487556633921,-6.94788580118336],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"CP1"},"yaxis":{"title":"CP2"},"zaxis":{"title":"CP3"}},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-17.5166868843973,-11.496687763536,-9.1286860502054,-14.3934235132196,4.45817381994713,-4.02668420461645,-12.0897520443857,-13.9004554152952,-18.7286747031946,-6.47141814182596,-6.83704652840023,25.4270828024067,-10.9720187632633,9.40386535237514,5.77497263220946,-15.3119750492724,-12.6838392221632,52.1156441685695,4.15679129172603,-3.24612667684542,-17.415527416982,3.13573654489045,13.3157086005373,17.0113357900632,4.58704327440647,34.8326481004715],"y":[4.92622849146716,11.6617663681564,2.16828206870484,-5.04749384714025,6.13156497659772,0.388895293468987,-2.33236877400518,9.72359023492206,3.33178945720348,-3.35662961896544,3.97634061407139,1.80467718378997,8.85877780026099,0.0857006108800964,-6.1586754733445,8.52674423212103,-9.77920054128174,8.64165979949763,-6.70685051064391,-9.23467979964214,-10.7323309239555,-4.98695108305546,-2.94482700262665,-9.12523021689935,0.871970409027049,-0.692749748608667],"z":[-2.35528094228987,3.00202829574394,-2.75030568204373,0.205689514018576,-1.92400082257994,-2.40586194144031,-4.6280666882325,-1.70981366852821,0.589384034934998,-4.75660271991866,0.0675723465928546,-2.91613130453214,0.226210227739534,-1.2365625567509,-4.87904446288958,3.92210147760459,-5.68921238331698,2.96515500955137,4.93995678654824,3.78225557673266,4.89564722164241,2.98354178510278,3.58894680573942,2.58152422836269,8.4487556633921,-6.94788580118336],"mode":"markers+text","marker":{"colorbar":{"title":"","ticklen":2},"cmin":-6.94788580118336,"cmax":8.4487556633921,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[-2.35528094228987,3.00202829574394,-2.75030568204373,0.205689514018576,-1.92400082257994,-2.40586194144031,-4.6280666882325,-1.70981366852821,0.589384034934998,-4.75660271991866,0.0675723465928546,-2.91613130453214,0.226210227739534,-1.2365625567509,-4.87904446288958,3.92210147760459,-5.68921238331698,2.96515500955137,4.93995678654824,3.78225557673266,4.89564722164241,2.98354178510278,3.58894680573942,2.58152422836269,8.4487556633921,-6.94788580118336],"size":10,"line":{"colorbar":{"title":"","ticklen":2},"cmin":-6.94788580118336,"cmax":8.4487556633921,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[-2.35528094228987,3.00202829574394,-2.75030568204373,0.205689514018576,-1.92400082257994,-2.40586194144031,-4.6280666882325,-1.70981366852821,0.589384034934998,-4.75660271991866,0.0675723465928546,-2.91613130453214,0.226210227739534,-1.2365625567509,-4.87904446288958,3.92210147760459,-5.68921238331698,2.96515500955137,4.93995678654824,3.78225557673266,4.89564722164241,2.98354178510278,3.58894680573942,2.58152422836269,8.4487556633921,-6.94788580118336]}},"text":["Belgica","Dinamarca","Francia","Alemania Occidental","Irlanda","Italia","Luxemburgo","Holanda","Inglaterra","Austria","Finlandia","Grecia","Noruega","Portugal","Espana","Suecia","Suiza","Turquia","Bulgaria","Checoslovaquia","Alemania Oriental","Hungria","Polonia","Rumania","Union Sovietica","Yugoslavia"],"textposition":["top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center","top center"],"type":"scatter3d","frame":null},{"x":[-18.7286747031946,52.1156441685695],"y":[-10.7323309239555,11.6617663681564],"type":"scatter3d","mode":"markers","opacity":0,"hoverinfo":"none","showlegend":false,"marker":{"colorbar":{"title":"","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"cmin":-6.94788580118336,"cmax":8.4487556633921,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"color":[-6.94788580118336,8.4487556633921],"line":{"color":"rgba(255,127,14,1)"}},"z":[-6.94788580118336,8.4487556633921],"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="conclusiones" class="level3">
+<h3 class="anchored" data-anchor-id="conclusiones">Conclusiones:</h3>
+<p>Se puede observar que en el gráfico 3D anterior hay 2 países muy alejados del resto como habíamos comentado con anterioridad. Estos son Turquia y Yugoslavia.</p>
+<p>Podemos establecer ciertos grupos en función de la proximidad de los países en el gráfico anterior.</p>
+<p>En primer lugar, destacar el grupo de países constituido por la Rumanía, Bulgaria, Polonia, Checoslovaquia, Alemania Oriental y Hungría. Se puede observar que estos países tienen rasgos en común; todos están en el este de Europa y, además, bajo la influencia de la Union Soviética. Todos estos eran países que compartían una misma ideología en ese preciso momento histórico. La Unión Soviética, a su vez, pese a estar relativamente próximo a este grupo tiene una economía muy enfocada en la fabricación.</p>
+<p>En segundo lugar, destacar que los países Noruega, Finlandia, Inglaterra y Alemania Occidental presentan similitudes. Son países que no tienen una economía especialmente agrícola (probablemente por condiciones climáticas debido a sus ubicaciones geográficas). En cambio, sí destacan por tener economías fuertes en el sector de la fabricación y en servicios sociales y personales.</p>
+<p>En tercer lugar, por proximidad en el gráfico, tendríamos un grupo de países formado por Holanda, Irlanda, Italia, Francia, Bélgica. No obstante, si estudiamos los datos con detenimiento, parece que Irlanda tiene una mayor componente agrícola en comparación con los demás. Es un grupo con rasgos similares al anterior pero con una mayor influencia del sector de la agricultura.</p>
+<p>En cuarto lugar tenemos el grupo compuesto por Portugal, España, Austria, Suiza y Luxeburgo. Pese a que basamos este análisis en los resultados del último gráfico, si nos fijamos en el conjunto de datos veríamos que tanto Portugal como España tienen un mayor nivel de agricultura que los otros, por lo que quizás tendrían más rasgos en común con otro de los grupos.</p>
+<p>Por último, comentar que hay países que se encuentran muy alejados del resto. Entre estos estarían, además de Turquía y Yugoslavia, Grecia, que también lo podemos considerar como un <em>outlier</em> (va acorde con nuestra idea de sopesar eliminarlos tras el ACP).</p>
+</section>
+<section id="comentarios-adicionales" class="level3">
+<h3 class="anchored" data-anchor-id="comentarios-adicionales">Comentarios adicionales:</h3>
+<p>Si tuviéramos que realizar otro estudio quizás sería conveniente agrupar las variables poco significativas (se podría establecer un umbral de significación del 5%) que serían minería, energía y finanzas. Tal vez de esta forma el estudio sería más sencillo y podríamos obtener algunas conclusiones extras.</p>
+</section>
 
 </main>
 <!-- /main column -->
@@ -314,23 +382,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
   clipboard.on('success', function(e) {
@@ -395,92 +449,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

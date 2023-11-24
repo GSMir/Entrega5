@@ -19,11 +19,16 @@ library(ggplot2)
 library(plotly)
 ```
 
-**Considera los datos *"europa.dat"* que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:**
+### Enunciado:
 
-**Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.**
+Considera los datos *"europa.dat"* que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:
 
-**Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.**
+Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.
+
+Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.
+
+
+### Resolución:
 
 En primer lugar procedemos a cargar nuestros datos:
 
@@ -59,7 +64,7 @@ Ahora, como dice el enunciado, procedemos a hacer una análisis de componentes p
 
 europa.acp_2=princomp(europa[,2:10], cor = FALSE) 
 
-europa.acp_2
+europa.acp_2$scores
 ```
 
 Estudiemos ahora qué porcentaje de la variabilidad total del Dataset viene representada por cada componente principal y, también, en qué medida contribuye cada una de las variables en las direcciones que determinan las componentes principales (porque cada CP es una combinación lineal de las variables con las que trabajamos).
@@ -80,11 +85,11 @@ En principio, dado que la primera componente principal acumula la gran mayoría 
 
 Si quisiéramos continuar con este estudio sin vernos penalizados por tomar un número excesivo de variables, es decir, habiendo reducido la dimensionalidad del problema asumiendo ciertas pérdidas de información, optaríamos por usar entre 2 y 3 componentes principales. En caso de coger 2 lo haríamos siendo conscientes de que habría algunas variables que no quedarían bien representadas, pero igualmente sí que estarían bien representados los sectores económicos más influyentes en media (agricultura, fabricación, servicios sociales e industria de servicio).
 
-Nos extraña que la agricultura no sea la variable que tenga un mayor nivel medio de ocupación a nivel europeo pero, sin embargo, es la que tiene la mayor variabilidad dentro de los sectores económicos. Podemos verlo en el vector de varianzas muestrales de nuestro conjunto de datos.
+Nos extraña que la agricultura no sea la variable que tenga un mayor nivel medio de ocupación a nivel europeo pero, sin embargo, es la que tiene la mayor variabilidad dentro de los sectores económicos. Podemos verlo en el vector de desviaciones típicas muestrales de nuestro conjunto de datos.
 
 ```{r}
 vector_var = europa %>%
-  summarise_if(is.numeric, var, na.rm = TRUE)
+  summarise_if(is.numeric, sd, na.rm = TRUE)
 vector_var
 ```
 
@@ -136,6 +141,17 @@ Si comparamos las componentes principales de las 3 posibles elecciones de paíse
 
 Procedemos con el análisis dos a dos de las componentes principales:
 
+
+```{r}
+ggbiplot(pcobj=europa.acp_2,
+         choices = c(1,2), #Indicamos los componentes principales
+         obs.scale = 1, var.scale = 1,  # Escala
+         labels = europa[,1],          # Etiquetas
+         varname.size = 4,             # Tamaño de letra sectores econ.
+         circle = TRUE
+         )+labs(title = "Proyección en 2D")
+```
+
 ```{r}
 ggbiplot(pcobj=europa.acp_2,
          choices = c(1,3), #Indicamos los componentes principales
@@ -154,40 +170,45 @@ ggbiplot(pcobj=europa.acp_2,
          varname.size = 4,             # Tamaño de letra sectores econ.
          circle = TRUE
          )+labs(title = "Proyección en 2D")
-
-
-```
-Para poder separar mejor los países en diferentes grupos, vamos a dibujar el grafico en 3D, de las tres componentes principales.
-
-```{r}
-europa = read.table("europa.dat", sep = " ")
-europa_tipi = scale(europa)
-
-descomp = svd(europa_tipi)
-
-x = descomp$u%*%diag(descomp$d) 
 ```
 
-
-```{r}
-a_1 = x[,1]
-a_2 = x[,2]
-a_3 = x[,3]
+Únicamente basándonos en las proyecciones sobre los distintos emparejamientos de las componentes principales es difícil obtener conclusiones a partir de las gráficas, por lo que para poder separar mejor los países en diferentes grupos, optamos por dibujar un gráfico 3D de las tres componentes principales.
 
 
-fig <- plot_ly(x=a_1, y=a_2, z=a_3, type="scatter3d", mode="markers", color=a_3, text = rownames(data)) %>% 
-  layout(scene = list(xaxis = list(title='CP1'), yaxis = list(title='CP2'), zaxis = list(title='CP3')))
-fig
+```{r, message = FALSE, warning=FALSE}
+
+scores_europa = europa.acp_2$scores[,1:3]
+
+a_1 = scores_europa[,1]
+a_2 = scores_europa[,2]
+a_3 = scores_europa[,3]
+
+plot_ly(europa, x = ~a_1, y = ~a_2, z = ~a_3, type = "scatter3d", mode = "markers+text", color=a_3,
+               marker = list(size = 10, color = ~a_3), text = europa[,1],
+               textposition = "top center") %>%
+  layout(scene = list(xaxis = list(title = 'CP1'),
+                      yaxis = list(title = 'CP2'),
+                      zaxis = list(title = 'CP3')))
 ```
 
-Conclusiones, se puede observar que en el grafico hay 2 países muy alejados del resto como habíamos dicho antes. Estos son Turquia y Yugoslavia.
 
-Ahora vamos a intentar agrupar los países en grupos. Se puede observar que los paises de pueden agrupar en 2 grandes grupos.
+### Conclusiones:
 
-El primero que vamos a comentar es el grupo de Unión Soviética, Rumania, Bulgaria, Polonia, Checoslovaquia, Alemana Oriental y Hungria. Se puede observar que estos países tienen diversas cosas en común, todos estan en el este de Europa y además también estaban bajo la influencia de la Union Soviética.
+Se puede observar que en el gráfico 3D anterior hay 2 países muy alejados del resto como habíamos comentado con anterioridad. Estos son Turquia y Yugoslavia.
 
-Como los paises restantes cuesta encontrar una linia divisoria para separarlos, vamos a agruparlos todos en un mismo grupo y luego lo vamos a subdividir en 2 subgrupos quedado algunos países fuero de estos. El primero de estos esta formado por los países Belgica, Francia, Suiza, Finlandia, España, Irlanda, Alemania Occidental, y Austria. Y el otro subgrupo es el de Grecia, Portugal, Italia y Noruega. Para los países restabtes que estan a la misma distancia de estos dos subgrupos no los vamos a poner en ninguno de ellos.
+Podemos establecer ciertos grupos en función de la proximidad de los países en el gráfico anterior.
+
+En primer lugar, destacar el grupo de países constituido por la Rumanía, Bulgaria, Polonia, Checoslovaquia, Alemania Oriental y Hungría. Se puede observar que estos países tienen rasgos en común; todos están en el este de Europa y, además, bajo la influencia de la Union Soviética. Todos estos eran países que compartían una misma ideología en ese preciso momento histórico. La Unión Soviética, a su vez, pese a estar relativamente próximo a este grupo tiene una economía muy enfocada en la fabricación.
+
+En segundo lugar, destacar que los países Noruega, Finlandia, Inglaterra y Alemania Occidental presentan similitudes. Son países que no tienen una economía especialmente agrícola (probablemente por condiciones climáticas debido a sus ubicaciones geográficas). En cambio, sí destacan por tener economías fuertes en el sector de la fabricación y en servicios sociales y personales.
+
+En tercer lugar, por proximidad en el gráfico, tendríamos un grupo de países formado por Holanda, Irlanda, Italia, Francia, Bélgica. No obstante, si estudiamos los datos con detenimiento, parece que Irlanda tiene una mayor componente agrícola en comparación con los demás. Es un grupo con rasgos similares al anterior pero con una mayor influencia del sector de la agricultura.
+
+En cuarto lugar tenemos el grupo compuesto por Portugal, España, Austria, Suiza y Luxeburgo. Pese a que basamos este análisis en los resultados del último gráfico, si nos fijamos en el conjunto de datos veríamos que tanto Portugal como España tienen un mayor nivel de agricultura que los otros, por lo que quizás tendrían más rasgos en común con otro de los grupos.
+
+Por último, comentar que hay países que se encuentran muy alejados del resto. Entre estos estarían, además de Turquía y Yugoslavia, Grecia, que también lo podemos considerar como un *outlier* (va acorde con nuestra idea de sopesar eliminarlos tras el ACP).
 
 
+### Comentarios adicionales:
 
-
+Si tuviéramos que realizar otro estudio quizás sería conveniente agrupar las variables poco significativas (se podría establecer un umbral de significación del 5%) que serían minería, energía y finanzas. Tal vez de esta forma el estudio sería más sencillo y podríamos obtener algunas conclusiones extras.
