@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,7 +18,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -34,6 +34,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="entrega5_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="entrega5_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="entrega5_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="entrega5_files/libs/htmlwidgets-1.6.3/htmlwidgets.js"></script>
+<script src="entrega5_files/libs/plotly-binding-4.10.3/plotly.js"></script>
+<script src="entrega5_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="entrega5_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="entrega5_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="entrega5_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="entrega5_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="entrega5_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 </head>
@@ -68,9 +76,6 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>Este es el <a href="https://github.com/GSMir/Entrega5">repositorio</a> de GitHub en el que alojaremos todos los archivos relacionados con esta entrega.</p>
-<div class="cell">
-
-</div>
 <p><strong>Considera los datos <em>“europa.dat”</em> que están disponibles en Aula Digital. Los datos corresponden a los porcentajes de población empleados en diferentes actividades económicas en Europa para el año 1979. Las variables consideradas son:</strong></p>
 <p><strong>Agricultura, Minas, Fábricas, Suministro Eléctrico, Construcción, Industrias de Servicio, Finanzas, Servicios Sociales y Personales y, Transporte y Comunicaciones.</strong></p>
 <p><strong>Utiliza el método de componentes principales para reducir el número de variables, y tratar de determinar grupos de países con comportamientos semejantes en la distribución de su fuerza de trabajo. En este caso, usa la matriz de covarianza para el cálculo de las componentes principales, ya que todos los datos están medidos en la misma escala (porcentaje de la población) y por las caractersticas de los datos, no parece una buena idea considerarlos todos de igual manera.</strong></p>
@@ -268,6 +273,17 @@ Cumulative Var  0.111  0.222  0.333  0.444  0.556  0.667  0.778  0.889  1.000</c
 <p><img src="entrega5_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Para poder separar mejor los países en diferentes grupos, vamos a dibujar el grafico en 3D, de las tres componentes principales.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-c4e635ff2ce953de0f92" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c4e635ff2ce953de0f92">{"x":{"visdat":{"204c4db224f5":["function () ","plotlyVisDat"]},"cur_data":"204c4db224f5","attrs":{"204c4db224f5":{"x":[-1.67728103620164,-0.934397492131028,-0.739975149768782,-0.835996511879207,0.101491833460153,-0.36811637453952,-1.03886877189347,-1.65543299885172,-1.59878686090995,-1.15360260902305,-0.972677179881507,2.07236434007615,-1.65374571603936,0.995576606378014,0.427398090321986,-1.06275793024845,-1.03758009271653,6.22427510849138,0.711509418739425,-0.417678061432472,-1.74624367131719,-0.567113187213531,1.09208478293711,2.01166160860495,-0.0494556785769696,3.87334753361521],"y":[-1.19806484139865,-2.08646480278072,-1.0994344474837,-0.0111556617081976,-0.405947821469221,-0.754603294916702,0.741149492389727,-1.96591210679542,-0.365883746646968,0.140321656514136,-0.733773615401227,-0.346597210522468,-1.05482685351619,-0.742343734261536,-0.604369243466225,-1.54786958613878,-0.727974399621264,-1.04544103752131,1.46769981287324,2.61281243500524,2.76035676309496,3.0824015866396,1.86824863837275,1.5738631242509,1.24193733425613,-0.798128439748099],"z":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886],"mode":"markers","text":null,"color":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"CP1"},"yaxis":{"title":"CP2"},"zaxis":{"title":"CP3"}},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-1.67728103620164,-0.934397492131028,-0.739975149768782,-0.835996511879207,0.101491833460153,-0.36811637453952,-1.03886877189347,-1.65543299885172,-1.59878686090995,-1.15360260902305,-0.972677179881507,2.07236434007615,-1.65374571603936,0.995576606378014,0.427398090321986,-1.06275793024845,-1.03758009271653,6.22427510849138,0.711509418739425,-0.417678061432472,-1.74624367131719,-0.567113187213531,1.09208478293711,2.01166160860495,-0.0494556785769696,3.87334753361521],"y":[-1.19806484139865,-2.08646480278072,-1.0994344474837,-0.0111556617081976,-0.405947821469221,-0.754603294916702,0.741149492389727,-1.96591210679542,-0.365883746646968,0.140321656514136,-0.733773615401227,-0.346597210522468,-1.05482685351619,-0.742343734261536,-0.604369243466225,-1.54786958613878,-0.727974399621264,-1.04544103752131,1.46769981287324,2.61281243500524,2.76035676309496,3.0824015866396,1.86824863837275,1.5738631242509,1.24193733425613,-0.798128439748099],"z":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886],"mode":"markers","type":"scatter3d","marker":{"colorbar":{"title":"","ticklen":2},"cmin":-3.05189662049886,"cmax":2.37594537206119,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886],"line":{"colorbar":{"title":"","ticklen":2},"cmin":-3.05189662049886,"cmax":2.37594537206119,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[-0.112536108521963,0.932259779598489,-0.488283775778961,-0.568272770305281,-0.376589924707,1.04000176654319,-0.63882856668282,0.0625041132144813,-1.11874761094167,-1.02310243548923,-0.35312856726637,0.860970599906005,1.29429141045855,0.643062437199341,-0.823092329178816,0.409497836223164,-0.589646927482987,0.908054833219452,0.974127453187823,-0.149285695963845,-0.105684286501018,-0.905769028734947,0.542830979635105,0.261318066806982,2.37594537206119,-3.05189662049886]}},"frame":null},{"x":[-1.74624367131719,6.22427510849138],"y":[-2.08646480278072,3.0824015866396],"type":"scatter3d","mode":"markers","opacity":0,"hoverinfo":"none","showlegend":false,"marker":{"colorbar":{"title":"","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"cmin":-3.05189662049886,"cmax":2.37594537206119,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"color":[-3.05189662049886,2.37594537206119],"line":{"color":"rgba(255,127,14,1)"}},"z":[-3.05189662049886,2.37594537206119],"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Conclusiones, se puede observar que en el grafico hay 2 países muy alejados del resto como habíamos dicho antes. Estos son Turquia y Yugoslavia.</p>
+<p>Ahora vamos a intentar agrupar los países en grupos. Se puede observar que los paises de pueden agrupar en 2 grandes grupos.</p>
+<p>El primero que vamos a comentar es el grupo de Unión Soviética, Rumania, Bulgaria, Polonia, Checoslovaquia, Alemana Oriental y Hungria. Se puede observar que estos países tienen diversas cosas en común, todos estan en el este de Europa y además también estaban bajo la influencia de la Union Soviética.</p>
+<p>Como los paises restantes cuesta encontrar una linia divisoria para separarlos, vamos a agruparlos todos en un mismo grupo y luego lo vamos a subdividir en 2 subgrupos quedado algunos países fuero de estos. El primero de estos esta formado por los países Belgica, Francia, Suiza, Finlandia, España, Irlanda, Alemania Occidental, y Austria. Y el otro subgrupo es el de Grecia, Portugal, Italia y Noruega. Para los países restabtes que estan a la misma distancia de estos dos subgrupos no los vamos a poner en ninguno de ellos.</p>
 
 </main>
 <!-- /main column -->
@@ -298,9 +314,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -365,6 +395,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
