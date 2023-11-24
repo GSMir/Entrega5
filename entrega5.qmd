@@ -108,8 +108,8 @@ Observamos que Turquía y Yugoslavia son los países más alejados del resto. Es
 
 Veamos ahora qué diferencias surgen si eliminamos algunos de estos países de nuestro conjunto de datos. ¿Cambiarán las componentes principales?
 
-```{r}
 
+```{r}
 # Abordaremos dos escenarios posibles:
 
 europa_1 <- europa[-c(18), ] # Exluimos Turquía
@@ -119,21 +119,54 @@ europa_3 <- europa[-c(12, 18, 26), ] # Exluimos Yugoslavia, Grecia y Turquía
 
 # Ahora realizamos el PCA en el conjunto de datos modificado, sin Turquía y Yugoslavia:
 
+
 europa_1.acp <- princomp(europa_1[, 2:10], cor = FALSE)
 europa_2.acp <- princomp(europa_2[, 2:10], cor = FALSE)
 europa_3.acp <- princomp(europa_3[, 2:10], cor = FALSE)
 
-fviz_eig(europa_1.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales")
-fviz_eig(europa_2.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales")
-fviz_eig(europa_3.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales")
 
-
+fviz_eig(europa_1.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales sin Turquía")
 europa_1.acp$loadings
+
+fviz_eig(europa_2.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales sin Turquía ni Yug")
 europa_2.acp$loadings
+
+
+fviz_eig(europa_3.acp, addlabels = TRUE, ylim=c(0,100)) + ggtitle("Peso de las componentes principales sin Turq. Yug y Grec.")
 europa_3.acp$loadings
+
 ```
 
-Si comparamos las componentes principales de las 3 posibles elecciones de países eliminados con el modelo inicial no se observan diferencias significativas entre ellos. Los componentes principales 1 y 2 tienen pesos muy similares y tendríamos que aumentar demasiado la dimensión del problema en cualquier caso para poder abarcar bien el problema. Finalmente, optaremos por estudiar el modelo inicial, sin eliminar ningún país, para no perder información.
+Si comparamos las componentes principales de las 3 posibles elecciones de países eliminados con el modelo inicial no se observan diferencias significativas entre ellos. Los componentes principales 1 y 2 tienen pesos muy similares y tendríamos que aumentar demasiado la dimensión del problema en cualquier caso para poder abarcar bien el problema. Finalmente, optaremos por estudiar el modelo inicial, sin eliminar ningún país, para no perder información y lo  haremos teniendo en cuenta las CP 1, 2 y 3. 
+
+Procedemos con el análisis dos a dos de las componentes principales:
+
+
+```{r}
+ggbiplot(pcobj=europa.acp_2,
+         choices = c(1,3), #Indicamos los componentes principales
+         obs.scale = 1, var.scale = 1,  # Escala
+         labels = europa[,1],          # Etiquetas
+         varname.size = 4,             # Tamaño de letra sectores econ.
+         circle = TRUE
+         )+labs(title = "Proyección en 2D")
+```
+
+
+
+
+```{r}
+ggbiplot(pcobj=europa.acp_2,
+         choices = c(2,3), #Indicamos los componentes principales
+         obs.scale = 1, var.scale = 1,  # Escala
+         labels = europa[,1],          # Etiquetas
+         varname.size = 4,             # Tamaño de letra sectores econ.
+         circle = TRUE
+         )+labs(title = "Proyección en 2D")
+```
+
+
+
 
 
 
